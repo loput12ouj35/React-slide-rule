@@ -1,0 +1,13 @@
+.git/
+.storybook/
+.vscode/
+.build/
+developer_document/
+node_modules/
+public/
+scripts/
+src/img
+src/scss
+src/unmigrated_components/
+src/unmigrated_js/
+src/unmigrated_pages/

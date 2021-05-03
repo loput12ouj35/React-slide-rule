@@ -58,43 +58,38 @@ export default class SliderRuler extends React.PureComponent<IProps> {
       color: 'rgba(0, 0, 0, 0.87)',
       top: 35,
     },
+    width: 300,
     height: 55,
     gap: 10,
     precision: 1,
     max: 300,
     min: 0,
     value: 150,
-    style: {
-      width: '100%',
-    },
     centerComponent: (
       <div style={{ width: 3, height: 35, backgroundColor: 'blue' }} />
     ),
   };
 
   state = { canvasWidth: 100 };
-  rootRef = React.createRef<HTMLDivElement>();
 
-  adjustSize = () => {
-    if (!this.rootRef.current) return;
-    this.setState({ canvasWidth: this.rootRef.current.offsetWidth });
-  };
-
-  componentDidMount() {
-    this.adjustSize();
-  }
-
-  componentDidUpdate() {
-    this.adjustSize();
+  validate() {
+    const { value, min, max, precision } = this.props;
+    if (typeof value !== 'number') console.warn('value prop should be number!');
+    if (!Number.isInteger(min / precision))
+      console.warn('min prop should be a multiple of precision prop');
+    if (!Number.isInteger(max / precision))
+      console.warn('max prop should be a multiple of precision prop');
+    if (!Number.isInteger(value / precision))
+      console.warn('value prop should be a multiple of precision prop');
   }
 
   render() {
     const { style, centerComponent, value, ...rest } = this.props;
-    const { canvasWidth } = this.state;
+    this.validate();
 
     return (
-      <div ref={this.rootRef} style={{ ...ROOT_STYLE, ...style, color: '' }}>
-        <Canvas {...rest} width={canvasWidth} value={Number(value)} />
+      <div style={{ ...ROOT_STYLE, ...style }}>
+        <Canvas {...rest} value={Number(value)} />
         <div style={CENTER_STYLE}>{centerComponent}</div>
       </div>
     );

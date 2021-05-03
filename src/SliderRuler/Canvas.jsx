@@ -148,8 +148,5 @@ export default class Canvas extends React.PureComponent {
 
 // memo
 // 1. 스타일을 매번 생성할 필요가 없음. state 변경시에만 새로 생성되게 하자
-// 2. canvas의 width, height 설정과 상위 div와 관련없게 할수 없나 + props.style 제거
 // 5. 세로 표현 어케하지? rotation으로 할까?
 // 6. mouseleave때문에 pointerEvents 넣었는데, IE 11미만은 안 되네
-// 7. min/max가 precision의 배수여야 함
-// 8. value도 precision의 배수여야 함

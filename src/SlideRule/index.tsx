@@ -47,7 +47,7 @@ const CENTER_STYLE: React.CSSProperties = {
   pointerEvents: 'none',
 };
 
-export default class SliderRuler extends React.PureComponent<IProps> {
+export default class SlideRule extends React.PureComponent<IProps> {
   static defaultProps = {
     onChange: () => {},
     primaryStyles: { color: '#C4C4C4', width: 4, height: 30, top: 0 },

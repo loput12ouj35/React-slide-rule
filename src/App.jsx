@@ -1,4 +1,4 @@
-import SliderRuler from 'SliderRuler';
+import SlideRule from 'SlideRule';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 export default React.memo(function App() {
@@ -8,10 +8,10 @@ export default React.memo(function App() {
     <>
       <Width100PercentExample />
       <ResizeObserverExample />
-      <SliderRuler value={value} onChange={setValue} gap={5} />
-      <SliderRuler value={value} onChange={setValue} gap={20} />
-      <SliderRuler value={value} onChange={setValue} precision={2} />
-      <SliderRuler gap={20} precision={0.01} />
+      <SlideRule value={value} onChange={setValue} gap={5} />
+      <SlideRule value={value} onChange={setValue} gap={20} />
+      <SlideRule value={value} onChange={setValue} precision={2} />
+      <SlideRule gap={20} precision={0.01} />
     </>
   );
 });
@@ -23,7 +23,7 @@ const Width100PercentExample = React.memo(function () {
 
   return (
     <div ref={(node) => setRef(node)}>
-      <SliderRuler value={value} onChange={setValue} width={width} />
+      <SlideRule value={value} onChange={setValue} width={width} />
     </div>
   );
 });
@@ -42,7 +42,7 @@ const ResizeObserverExample = React.memo(function () {
 
   return (
     <div ref={root}>
-      <SliderRuler value={value} onChange={setValue} width={width} />
+      <SlideRule value={value} onChange={setValue} width={width} />
     </div>
   );
 });

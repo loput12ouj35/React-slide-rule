@@ -13,7 +13,7 @@ export default class Canvas extends React.PureComponent {
   state = { translateX: 0 };
   browserEnv = window.hasOwnProperty('ontouchstart');
   canvasRef = React.createRef();
-  currentValue = this.props.defaultValue;
+  currentValue = this.props.value;
 
   handleTouchStart = (e) => {
     if (this.isTouching) return;
@@ -41,7 +41,7 @@ export default class Canvas extends React.PureComponent {
   handleTouchEnd = () => {
     if (!this.isTouching) return;
     this.isTouching = false;
-    this.moveGradations(this.inertialShift());
+    this.moveGradations(this.calcInertialShfitInPx());
     this.setState({ translateX: 0 });
     this.touchPoints = [];
   };
@@ -51,12 +51,12 @@ export default class Canvas extends React.PureComponent {
     this.touchPoints.push({ time, shift });
   };
 
-  inertialShift = () => {
+  calcInertialShfitInPx = () => {
     if (!this.browserEnv) return 0;
     if (this.touchPoints.length < 4) return 0;
     const [first, , , last] = this.touchPoints.slice(-4);
     const v = ((last.shift - first.shift) / (last.time - first.time)) * 1000;
-    return Math.sign(v) * Math.min(v ** 2 / 12000, 1000);
+    return (Math.sign(v) * v ** 2) / 12000;
   };
 
   rebound = (deltaX) => {
@@ -73,25 +73,30 @@ export default class Canvas extends React.PureComponent {
     return true;
   };
 
-  moveGradations = (shift) => {
-    const { divide, precision } = this.props;
-    const moveValue = Math.round(-shift / divide);
-    let _moveValue = Math.abs(moveValue);
+  moveGradations = (diffPx) => {
+    const { divide, precision, onChange } = this.props;
+    const diff = Math.round(-diffPx / divide);
+    let moveValue = Math.abs(diff);
+
     const draw = () => {
-      if (_moveValue < 1) return this.props.onChange(this.currentValue);
-      this.currentValue += Math.sign(moveValue) * precision;
+      if (moveValue < 1) {
+        if (precision >= 1) return onChange(this.currentValue);
+        const decimalPlace = this.calcNumberOfDecimalPlace(precision);
+        return onChange(Number(this.currentValue.toFixed(decimalPlace)));
+      }
+      this.currentValue += Math.sign(diff) * precision;
+      moveValue -= [64, 16, 4].find((n) => moveValue > n) ?? 1;
       this.calcValueAndDrawCanvas();
       window.requestAnimationFrame(draw);
-      _moveValue--;
     };
 
-    draw();
+    window.requestAnimationFrame(draw);
   };
 
-  calcValue = () => {
+  adjustValue = (v) => {
     const { min, max, precision } = this.props;
-    const value = Math.max(min, Math.min(this.currentValue, max));
-    return (Math.round((value * 10) / precision) * precision) / 10;
+    const value = Math.max(min, Math.min(v, max));
+    return Math.round(value / precision) * precision;
   };
 
   calcFromTo = (value) => {
@@ -107,7 +112,7 @@ export default class Canvas extends React.PureComponent {
         ? halfWidth - ((value - startValue) * divide) / precision
         : halfWidth - diffCurrentMin;
 
-    const from = Math.round((startValue / precision) * 10) / 10;
+    const from = Math.round(startValue / precision);
     const to = endValue / precision;
     const calcX = (i) => originX + (i - startValue / precision) * divide;
     return { from, to, calcX };
@@ -117,19 +122,18 @@ export default class Canvas extends React.PureComponent {
     const canvas = this.canvasRef.current;
     if (!canvas) return;
 
-    const { primaryStyles, secondaryStyles, precision } = this.props;
-
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    const { primaryStyles, secondaryStyles } = this.props;
     for (let i = from; i <= to; i++) {
       const x = calcX(i);
 
       ctx.beginPath();
       if (i % 10 === 0) {
         this.drawLine(ctx, x, primaryStyles);
-        const number = Math.round(i / 10) * (precision * 10);
-        this.drawNumber(ctx, number, x);
+        const text = this.calcNumberText(i);
+        this.drawNumberText(ctx, text, x);
       } else this.drawLine(ctx, x, secondaryStyles);
 
       ctx.closePath();
@@ -144,19 +148,28 @@ export default class Canvas extends React.PureComponent {
     ctx.stroke();
   };
 
-  drawNumber = (ctx, number, x) => {
+  calcNumberText = (i) => {
+    const { precision } = this.props;
+    const number = i * precision;
+    if (precision >= 0.1) return number;
+    const decimalPlace = this.calcNumberOfDecimalPlace(precision);
+    return number.toFixed(decimalPlace - 1);
+  };
+
+  calcNumberOfDecimalPlace = (precision) => -Math.floor(Math.log10(precision));
+
+  drawNumberText = (ctx, text, x) => {
     const { size, family, color, top } = this.props.textStyles;
     ctx.fillStyle = color;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'top';
     ctx.font = `${size} ${family}`;
-    ctx.fillText(number, x, top);
+    ctx.fillText(text, x, top);
   };
 
   calcValueAndDrawCanvas = () => {
-    const value = this.calcValue();
-    this.drawCanvas(this.calcFromTo(value));
-    this.currentValue = value;
+    this.currentValue = this.adjustValue(this.currentValue);
+    this.drawCanvas(this.calcFromTo(this.currentValue));
   };
 
   componentDidMount() {
@@ -190,10 +203,17 @@ export default class Canvas extends React.PureComponent {
   }
 }
 
+// Log10 polyfill. IE does not support log10.
+Math.log10 =
+  Math.log10 ||
+  function (x) {
+    return Math.log(x) * Math.LOG10E;
+  };
+
 // memo
 // 1. 스타일을 매번 생성할 필요가 없음. state 변경시에만 새로 생성되게 하자
 // 2. canvas의 width, height 설정과 상위 div와 관련없게 할수 없나 + props.style 제거
-// 3. precision이 소수일 때의 처리
-// 4. 관성 어색함
 // 5. 세로 표현 어케하지? rotation으로 할까?
 // 6. mouseleave때문에 pointerEvents 넣었는데, IE 11미만은 안 되네
+// 7. min/max가 precision의 배수여야 함
+// 8. value도 precision의 배수여야 함

@@ -63,8 +63,7 @@ export default class SliderRuler extends React.PureComponent<IProps> {
     precision: 1,
     max: 300,
     min: 0,
-    // value: 150,
-    defaultValue: 30,
+    value: 150,
     style: {
       width: '100%',
     },
@@ -90,12 +89,12 @@ export default class SliderRuler extends React.PureComponent<IProps> {
   }
 
   render() {
-    const { style, centerComponent, ...rest } = this.props;
+    const { style, centerComponent, value, ...rest } = this.props;
     const { canvasWidth } = this.state;
 
     return (
       <div ref={this.rootRef} style={{ ...ROOT_STYLE, ...style, color: '' }}>
-        <Canvas {...rest} width={canvasWidth} />
+        <Canvas {...rest} width={canvasWidth} value={Number(value)} />
         <div style={CENTER_STYLE}>{centerComponent}</div>
       </div>
     );

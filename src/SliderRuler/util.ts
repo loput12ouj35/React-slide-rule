@@ -1,5 +1,8 @@
 import { TouchPoint } from './type';
 
+// Log10 polyfill. IE does not support log10().
+Math.log10 = Math.log10 ?? ((x) => Math.log(x) * Math.LOG10E);
+
 const isOverBoundary = (options: {
   min: number;
   max: number;
@@ -34,10 +37,37 @@ const adjustValue = (options: {
 const calcNumberOfDecimalPlace = (precision: number): number =>
   -Math.floor(Math.log10(precision));
 
+const calcFromTo = (options: {
+  min: number;
+  max: number;
+  precision: number;
+  gap: number;
+  width: number;
+  value: number;
+}) => {
+  const { min, max, precision, gap, width, value } = options;
+  const halfWidth = width / 2;
+  const diffCurrentMin = ((value - min) * gap) / precision;
+  const _startValue = value - Math.floor(halfWidth / gap) * precision;
+  const startValue = Math.max(min, Math.min(_startValue, max));
+  const _endValue = startValue + (width / gap) * precision;
+  const endValue = Math.min(_endValue, max);
+  const originX =
+    diffCurrentMin > halfWidth
+      ? halfWidth - ((value - startValue) * gap) / precision
+      : halfWidth - diffCurrentMin;
+
+  const from = Math.round(startValue / precision);
+  const to = endValue / precision;
+  const calcX = (i: number) => originX + (i - startValue / precision) * gap;
+  return { from, to, calcX };
+};
+
 export default {
   isOverBoundary,
   calcReboundTranslateX,
   calcInertialShfitInPx,
   adjustValue,
   calcNumberOfDecimalPlace,
+  calcFromTo,
 };

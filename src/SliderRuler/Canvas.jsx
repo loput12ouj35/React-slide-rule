@@ -33,7 +33,7 @@ export default class Canvas extends React.PureComponent {
     this.addTouchPoint(pageX);
     const deltaX = pageX - this.pageX;
 
-    if (Math.abs(deltaX) < this.props.divide) return;
+    if (Math.abs(deltaX) < this.props.gap) return;
     if (this.rebound(deltaX)) return;
 
     this.pageX = pageX;
@@ -49,10 +49,8 @@ export default class Canvas extends React.PureComponent {
     this.touchPoints = [];
   };
 
-  addTouchPoint = (shift) => {
-    const time = new Date().getTime();
-    this.touchPoints.push({ time, shift });
-  };
+  addTouchPoint = (shift) =>
+    this.touchPoints.push({ time: new Date().getTime(), shift });
 
   rebound = (deltaX) => {
     const { max, min } = this.props;
@@ -66,8 +64,8 @@ export default class Canvas extends React.PureComponent {
   };
 
   moveGradations = (diffPx) => {
-    const { divide, precision, onChange } = this.props;
-    const diff = Math.round(-diffPx / divide);
+    const { gap, precision, onChange } = this.props;
+    const diff = Math.round(-diffPx / gap);
     let moveValue = Math.abs(diff);
 
     const draw = () => {
@@ -85,58 +83,36 @@ export default class Canvas extends React.PureComponent {
     window.requestAnimationFrame(draw);
   };
 
-  calcFromTo = (value) => {
-    const { min, max, precision, divide, width } = this.props;
-    const halfWidth = width / 2;
-    const diffCurrentMin = ((value - min) * divide) / precision;
-    const _startValue = value - Math.floor(halfWidth / divide) * precision;
-    const startValue = Math.max(min, Math.min(_startValue, max));
-    const _endValue = startValue + (width / divide) * precision;
-    const endValue = Math.min(_endValue, max);
-    const originX =
-      diffCurrentMin > halfWidth
-        ? halfWidth - ((value - startValue) * divide) / precision
-        : halfWidth - diffCurrentMin;
-
-    const from = Math.round(startValue / precision);
-    const to = endValue / precision;
-    const calcX = (i) => originX + (i - startValue / precision) * divide;
-    return { from, to, calcX };
-  };
-
-  drawCanvas = ({ from, to, calcX }) => {
-    const canvas = this.canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    const { primaryStyles, secondaryStyles, textStyles } = this.props;
-    const { precision } = this.props;
-
-    for (let i = from; i <= to; i++) {
-      const x = calcX(i);
-
-      ctx.beginPath();
-      if (i % 10 === 0) {
-        drawingUtil.drawLine(ctx, x, primaryStyles);
-        const text = drawingUtil.calcNumberText(i, precision);
-        drawingUtil.drawNumberText(ctx, text, x, textStyles);
-      } else drawingUtil.drawLine(ctx, x, secondaryStyles);
-
-      ctx.closePath();
-    }
-  };
-
   calcValueAndDrawCanvas = () => {
-    const { min, max, precision } = this.props;
+    const { min, max, precision, gap, width } = this.props;
     this.currentValue = util.adjustValue({
       max,
       min,
       precision,
       value: this.currentValue,
     });
-    this.drawCanvas(this.calcFromTo(this.currentValue));
+    const canvas = this.canvasRef.current;
+    if (!canvas) return;
+    const { primaryStyles, secondaryStyles, textStyles } = this.props;
+    const { from, to, calcX } = util.calcFromTo({
+      max,
+      min,
+      precision,
+      gap,
+      width,
+      value: this.currentValue,
+    });
+
+    drawingUtil.drawCanvas({
+      canvas,
+      precision,
+      primaryStyles,
+      secondaryStyles,
+      textStyles,
+      from,
+      to,
+      calcX,
+    });
   };
 
   componentDidMount() {
@@ -169,13 +145,6 @@ export default class Canvas extends React.PureComponent {
     );
   }
 }
-
-// Log10 polyfill. IE does not support log10.
-Math.log10 =
-  Math.log10 ||
-  function (x) {
-    return Math.log(x) * Math.LOG10E;
-  };
 
 // memo
 // 1. 스타일을 매번 생성할 필요가 없음. state 변경시에만 새로 생성되게 하자

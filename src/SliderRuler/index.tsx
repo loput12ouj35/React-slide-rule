@@ -24,7 +24,7 @@ interface IProps {
     color: Property.Color;
     top: number;
   };
-  divide: number;
+  gap: number;
   precision: number;
   max: number;
   min: number;
@@ -59,7 +59,7 @@ export default class SliderRuler extends React.PureComponent<IProps> {
       top: 35,
     },
     height: 55,
-    divide: 10,
+    gap: 10,
     precision: 1,
     max: 300,
     min: 0,

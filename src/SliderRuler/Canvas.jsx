@@ -1,4 +1,6 @@
 import React from 'react';
+import drawingUtil from './drawingUtil';
+import util from './util';
 
 const CANVAS_STYLE = {
   display: 'block',
@@ -41,7 +43,8 @@ export default class Canvas extends React.PureComponent {
   handleTouchEnd = () => {
     if (!this.isTouching) return;
     this.isTouching = false;
-    this.moveGradations(this.calcInertialShfitInPx());
+    if (this.browserEnv)
+      this.moveGradations(util.calcInertialShfitInPx(this.touchPoints));
     this.setState({ translateX: 0 });
     this.touchPoints = [];
   };
@@ -51,24 +54,13 @@ export default class Canvas extends React.PureComponent {
     this.touchPoints.push({ time, shift });
   };
 
-  calcInertialShfitInPx = () => {
-    if (!this.browserEnv) return 0;
-    if (this.touchPoints.length < 4) return 0;
-    const [first, , , last] = this.touchPoints.slice(-4);
-    const v = ((last.shift - first.shift) / (last.time - first.time)) * 1000;
-    return (Math.sign(v) * v ** 2) / 12000;
-  };
-
   rebound = (deltaX) => {
     const { max, min } = this.props;
 
-    if (
-      (this.currentValue !== min || deltaX <= 0) &&
-      (this.currentValue !== max || deltaX >= 0)
-    )
+    if (!util.isOverBoundary({ max, min, deltaX, value: this.currentValue }))
       return false;
 
-    const translateX = Math.sign(deltaX) * 1.5988 * Math.abs(deltaX) ** 0.7962;
+    const translateX = util.calcReboundTranslateX(deltaX);
     this.setState({ translateX });
     return true;
   };
@@ -81,7 +73,7 @@ export default class Canvas extends React.PureComponent {
     const draw = () => {
       if (moveValue < 1) {
         if (precision >= 1) return onChange(this.currentValue);
-        const decimalPlace = this.calcNumberOfDecimalPlace(precision);
+        const decimalPlace = util.calcNumberOfDecimalPlace(precision);
         return onChange(Number(this.currentValue.toFixed(decimalPlace)));
       }
       this.currentValue += Math.sign(diff) * precision;
@@ -91,12 +83,6 @@ export default class Canvas extends React.PureComponent {
     };
 
     window.requestAnimationFrame(draw);
-  };
-
-  adjustValue = (v) => {
-    const { min, max, precision } = this.props;
-    const value = Math.max(min, Math.min(v, max));
-    return Math.round(value / precision) * precision;
   };
 
   calcFromTo = (value) => {
@@ -125,50 +111,31 @@ export default class Canvas extends React.PureComponent {
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    const { primaryStyles, secondaryStyles } = this.props;
+    const { primaryStyles, secondaryStyles, textStyles } = this.props;
+    const { precision } = this.props;
+
     for (let i = from; i <= to; i++) {
       const x = calcX(i);
 
       ctx.beginPath();
       if (i % 10 === 0) {
-        this.drawLine(ctx, x, primaryStyles);
-        const text = this.calcNumberText(i);
-        this.drawNumberText(ctx, text, x);
-      } else this.drawLine(ctx, x, secondaryStyles);
+        drawingUtil.drawLine(ctx, x, primaryStyles);
+        const text = drawingUtil.calcNumberText(i, precision);
+        drawingUtil.drawNumberText(ctx, text, x, textStyles);
+      } else drawingUtil.drawLine(ctx, x, secondaryStyles);
 
       ctx.closePath();
     }
   };
 
-  drawLine = (ctx, x, { width, height, color, top }) => {
-    ctx.moveTo(x, top);
-    ctx.lineWidth = width;
-    ctx.lineTo(x, height);
-    ctx.strokeStyle = color;
-    ctx.stroke();
-  };
-
-  calcNumberText = (i) => {
-    const { precision } = this.props;
-    const number = i * precision;
-    if (precision >= 0.1) return number;
-    const decimalPlace = this.calcNumberOfDecimalPlace(precision);
-    return number.toFixed(decimalPlace - 1);
-  };
-
-  calcNumberOfDecimalPlace = (precision) => -Math.floor(Math.log10(precision));
-
-  drawNumberText = (ctx, text, x) => {
-    const { size, family, color, top } = this.props.textStyles;
-    ctx.fillStyle = color;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'top';
-    ctx.font = `${size} ${family}`;
-    ctx.fillText(text, x, top);
-  };
-
   calcValueAndDrawCanvas = () => {
-    this.currentValue = this.adjustValue(this.currentValue);
+    const { min, max, precision } = this.props;
+    this.currentValue = util.adjustValue({
+      max,
+      min,
+      precision,
+      value: this.currentValue,
+    });
     this.drawCanvas(this.calcFromTo(this.currentValue));
   };
 

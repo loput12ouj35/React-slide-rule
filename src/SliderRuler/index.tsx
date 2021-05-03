@@ -6,19 +6,19 @@ interface IProps {
   onChange: (v: number) => any;
   width: Property.Width;
   height: Property.Height;
-  primary: {
+  primaryStyles: {
     color: Property.BackgroundColor;
     width: number;
     height: number;
     top: number;
   };
-  secondary: {
+  secondaryStyles: {
     color: Property.BackgroundColor;
     width: number;
     height: number;
     top: number;
   };
-  text: {
+  textStyles: {
     size: Property.FontSize;
     family: Property.FontFamily;
     color: Property.Color;
@@ -29,6 +29,7 @@ interface IProps {
   max: number;
   min: number;
   value: number;
+  defaultValue: number;
   style: React.CSSProperties;
   centerComponent: React.ReactElement;
 }
@@ -49,9 +50,9 @@ const CENTER_STYLE: React.CSSProperties = {
 export default class SliderRuler extends React.PureComponent<IProps> {
   static defaultProps = {
     onChange: () => {},
-    primary: { color: '#C4C4C4', width: 4, height: 30, top: 0 },
-    secondary: { color: '#E4E4E4', width: 2, height: 15, top: 7 },
-    text: {
+    primaryStyles: { color: '#C4C4C4', width: 4, height: 30, top: 0 },
+    secondaryStyles: { color: '#E4E4E4', width: 2, height: 15, top: 7 },
+    textStyles: {
       size: '1.25em',
       family: 'Arial',
       color: 'rgba(0, 0, 0, 0.87)',
@@ -62,7 +63,8 @@ export default class SliderRuler extends React.PureComponent<IProps> {
     precision: 1,
     max: 300,
     min: 0,
-    value: 150,
+    // value: 150,
+    defaultValue: 30,
     style: {
       width: '100%',
     },

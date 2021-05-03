@@ -13,6 +13,7 @@ export default class Canvas extends React.PureComponent {
   state = { translateX: 0 };
   browserEnv = window.hasOwnProperty('ontouchstart');
   canvasRef = React.createRef();
+  currentValue = this.props.defaultValue;
 
   handleTouchStart = (e) => {
     if (this.isTouching) return;
@@ -116,7 +117,7 @@ export default class Canvas extends React.PureComponent {
     const canvas = this.canvasRef.current;
     if (!canvas) return;
 
-    const { primary, secondary, precision } = this.props;
+    const { primaryStyles, secondaryStyles, precision } = this.props;
 
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -126,9 +127,10 @@ export default class Canvas extends React.PureComponent {
 
       ctx.beginPath();
       if (i % 10 === 0) {
-        this.drawLine(ctx, x, primary);
-        this.drawNumber(ctx, Math.round(i / 10) * (precision * 10), x);
-      } else this.drawLine(ctx, x, secondary);
+        this.drawLine(ctx, x, primaryStyles);
+        const number = Math.round(i / 10) * (precision * 10);
+        this.drawNumber(ctx, number, x);
+      } else this.drawLine(ctx, x, secondaryStyles);
 
       ctx.closePath();
     }
@@ -143,7 +145,7 @@ export default class Canvas extends React.PureComponent {
   };
 
   drawNumber = (ctx, number, x) => {
-    const { size, family, color, top } = this.props.text;
+    const { size, family, color, top } = this.props.textStyles;
     ctx.fillStyle = color;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'top';
@@ -166,9 +168,9 @@ export default class Canvas extends React.PureComponent {
   }
 
   render() {
-    const { width, height, value } = this.props;
+    const { width, height, value = null } = this.props;
     const { translateX } = this.state;
-    this.currentValue = value;
+    if (value !== null) this.currentValue = value;
 
     return (
       <canvas

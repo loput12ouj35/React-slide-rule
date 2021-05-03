@@ -6,6 +6,7 @@ const CANVAS_STYLE = {
   display: 'block',
   margin: '0 auto',
   transitionDuration: '300ms',
+  transform: 'translateX(0px)',
 };
 
 export default class Canvas extends React.PureComponent {
@@ -52,7 +53,7 @@ export default class Canvas extends React.PureComponent {
   addTouchPoint = (shift) =>
     this.touchPoints.push({ time: new Date().getTime(), shift });
 
-  rebound = (deltaX) => {
+  rebound(deltaX) {
     const { max, min } = this.props;
 
     if (!util.isOverBoundary({ max, min, deltaX, value: this.currentValue }))
@@ -61,9 +62,9 @@ export default class Canvas extends React.PureComponent {
     const translateX = util.calcReboundTranslateX(deltaX);
     this.setState({ translateX });
     return true;
-  };
+  }
 
-  moveGradations = (diffPx) => {
+  moveGradations(diffPx) {
     const { gap, precision, onChange } = this.props;
     const diff = Math.round(-diffPx / gap);
     let moveValue = Math.abs(diff);
@@ -76,14 +77,14 @@ export default class Canvas extends React.PureComponent {
       }
       this.currentValue += Math.sign(diff) * precision;
       moveValue -= [64, 16, 4].find((n) => moveValue > n) ?? 1;
-      this.calcValueAndDrawCanvas();
+      this.drawCanvas();
       window.requestAnimationFrame(draw);
     };
 
     window.requestAnimationFrame(draw);
-  };
+  }
 
-  calcValueAndDrawCanvas = () => {
+  drawCanvas() {
     const { min, max, precision, gap, width } = this.props;
     this.currentValue = util.adjustValue({
       max,
@@ -113,14 +114,19 @@ export default class Canvas extends React.PureComponent {
       to,
       calcX,
     });
-  };
+  }
+
+  createStyle = (translateX) =>
+    translateX === 0
+      ? CANVAS_STYLE
+      : { ...CANVAS_STYLE, transform: `translateX(${translateX}px)` };
 
   componentDidMount() {
-    this.calcValueAndDrawCanvas();
+    this.drawCanvas();
   }
 
   componentDidUpdate() {
-    this.calcValueAndDrawCanvas();
+    this.drawCanvas();
   }
 
   render() {
@@ -133,7 +139,7 @@ export default class Canvas extends React.PureComponent {
         ref={this.canvasRef}
         width={width}
         height={height}
-        style={{ ...CANVAS_STYLE, transform: `translateX(${translateX}px)` }}
+        style={this.createStyle(translateX)}
         onTouchStart={this.handleTouchStart}
         onMouseDown={this.handleTouchStart}
         onTouchMove={this.handleTouchMove}
@@ -147,6 +153,5 @@ export default class Canvas extends React.PureComponent {
 }
 
 // memo
-// 1. 스타일을 매번 생성할 필요가 없음. state 변경시에만 새로 생성되게 하자
 // 5. 세로 표현 어케하지? rotation으로 할까?
 // 6. mouseleave때문에 pointerEvents 넣었는데, IE 11미만은 안 되네

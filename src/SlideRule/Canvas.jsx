@@ -1,13 +1,7 @@
 import React from 'react';
 import drawingUtil from './drawingUtil';
+import styles from './styles.ts';
 import util from './util';
-
-const CANVAS_STYLE = {
-  display: 'block',
-  margin: '0 auto',
-  transitionDuration: '300ms',
-  transform: 'translateX(0px)',
-};
 
 export default class Canvas extends React.PureComponent {
   pageX = 0;
@@ -116,11 +110,6 @@ export default class Canvas extends React.PureComponent {
     });
   }
 
-  createStyle = (translateX) =>
-    translateX === 0
-      ? CANVAS_STYLE
-      : { ...CANVAS_STYLE, transform: `translateX(${translateX}px)` };
-
   componentDidMount() {
     this.drawCanvas();
   }
@@ -139,7 +128,7 @@ export default class Canvas extends React.PureComponent {
         ref={this.canvasRef}
         width={width}
         height={height}
-        style={this.createStyle(translateX)}
+        style={styles.createCanvasStyle(translateX)}
         onTouchStart={this.handleTouchStart}
         onMouseDown={this.handleTouchStart}
         onTouchMove={this.handleTouchMove}

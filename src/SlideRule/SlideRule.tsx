@@ -1,6 +1,7 @@
 import React from 'react';
 import Canvas from './Canvas';
 import { Property } from 'csstype';
+import styles from './styles';
 
 interface IProps {
   onChange: (v: number) => any;
@@ -33,20 +34,8 @@ interface IProps {
   style: React.CSSProperties;
   centerComponent: React.ReactElement;
   offWarning: boolean;
+  vertical: boolean;
 }
-
-const ROOT_STYLE: React.CSSProperties = {
-  position: 'relative',
-  overflow: 'hidden',
-};
-
-const CENTER_STYLE: React.CSSProperties = {
-  position: 'absolute',
-  left: '50%',
-  top: 0,
-  transform: 'translateX(-50%)',
-  pointerEvents: 'none',
-};
 
 export default class SlideRule extends React.PureComponent<IProps> {
   static defaultProps = {
@@ -69,6 +58,8 @@ export default class SlideRule extends React.PureComponent<IProps> {
     centerComponent: (
       <div style={{ width: 3, height: 35, backgroundColor: 'blue' }} />
     ),
+    offWarning: false,
+    vertical: false,
   };
 
   state = { canvasWidth: 100 };
@@ -86,12 +77,13 @@ export default class SlideRule extends React.PureComponent<IProps> {
 
   render() {
     const { style, centerComponent, value, offWarning, ...rest } = this.props;
+    const { vertical } = rest;
     if (!offWarning) this.validate();
 
     return (
-      <div style={{ ...ROOT_STYLE, ...style }}>
+      <div style={styles.createRootStyle(style)}>
         <Canvas {...rest} value={Number(value)} />
-        <div style={CENTER_STYLE}>{centerComponent}</div>
+        <div style={styles.createCenterStyle(vertical)}>{centerComponent}</div>
       </div>
     );
   }

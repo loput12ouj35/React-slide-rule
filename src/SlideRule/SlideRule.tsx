@@ -32,6 +32,7 @@ interface IProps {
   defaultValue: number;
   style: React.CSSProperties;
   centerComponent: React.ReactElement;
+  offWarning: boolean;
 }
 
 const ROOT_STYLE: React.CSSProperties = {
@@ -51,7 +52,7 @@ export default class SlideRule extends React.PureComponent<IProps> {
   static defaultProps = {
     onChange: () => {},
     primaryStyles: { color: '#C4C4C4', width: 4, height: 30, top: 0 },
-    secondaryStyles: { color: '#E4E4E4', width: 2, height: 15, top: 7 },
+    secondaryStyles: { color: '#E4E4E4', width: 2, height: 15, top: 0 },
     textStyles: {
       size: '1.25em',
       family: 'Arial',
@@ -84,8 +85,8 @@ export default class SlideRule extends React.PureComponent<IProps> {
   }
 
   render() {
-    const { style, centerComponent, value, ...rest } = this.props;
-    this.validate();
+    const { style, centerComponent, value, offWarning, ...rest } = this.props;
+    if (!offWarning) this.validate();
 
     return (
       <div style={{ ...ROOT_STYLE, ...style }}>

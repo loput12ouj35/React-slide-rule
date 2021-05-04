@@ -1,102 +1,102 @@
 import React from 'react';
 import Canvas from './Canvas';
-import { Property } from 'csstype';
 import styles from './styles';
+import { SlideRuleProps } from './type';
 
-interface IProps {
-  onChange: (v: number) => any;
-  width: number;
-  height: number;
-  primaryStyle: {
-    color: Property.BackgroundColor;
-    width: number;
-    height: number;
-    top?: number;
-    left?: number;
-  };
-  secondaryStyle: {
-    color: Property.BackgroundColor;
-    width: number;
-    height: number;
-    top?: number;
-    left?: number;
-  };
-  textStyle: {
-    size: Property.FontSize;
-    family: Property.FontFamily;
-    color: Property.Color;
-    top?: number;
-    left?: number;
-    textAlign: 'left' | 'right' | 'center' | 'start' | 'end';
-    textBaseline:
-      | 'top'
-      | 'hanging'
-      | 'middle'
-      | 'alphabetic'
-      | 'ideographic'
-      | 'bottom';
-  };
-  gap: number;
-  precision: number;
-  max: number;
-  min: number;
-  value: number;
-  style?: React.CSSProperties;
-  centerComponent: React.ReactElement;
-  offWarning: boolean;
-  direction: 'row' | 'column';
-  // direction: 'row' | 'column' | 'column-reverse' | 'row-reverse';
-}
-
-export default class SlideRule extends React.PureComponent<IProps> {
-  static defaultProps: IProps = {
-    onChange: (v: number) => {},
-    primaryStyle: { color: '#C4C4C4', width: 3, height: 30, top: 0, left: 0 },
-    secondaryStyle: { color: '#E4E4E4', width: 2, height: 15, top: 0, left: 0 },
+const DEFAULT_PROPS = {
+  row: {
+    width: 300,
+    height: 55,
+    cursor: <div style={{ width: 3, height: 35, background: 'blue' }} />,
+    primaryStyle: { color: '#C4C4C4', width: 3, height: 30, top: 0 },
+    secondaryStyle: { color: '#E4E4E4', width: 2, height: 15, top: 0 },
     textStyle: {
       size: '1.25em',
       family: 'Arial',
       color: 'rgba(0, 0, 0, 0.87)',
       top: 35,
-      left: 35,
       textAlign: 'center',
       textBaseline: 'top',
     },
-    width: 300,
-    height: 55,
-    gap: 10,
-    precision: 1,
-    max: 300,
-    min: 0,
-    value: 150,
-    centerComponent: (
-      <div style={{ width: 3, height: 35, backgroundColor: 'blue' }} />
-    ),
-    offWarning: false,
-    direction: 'row',
-  };
+  },
+  column: {
+    width: 75,
+    height: 300,
+    cursor: <div style={{ width: 35, height: 3, backgroundColor: 'red' }} />,
+    primaryStyle: { color: '#C4C4C4', width: 30, height: 3, left: 0 },
+    secondaryStyle: { color: '#E4E4E4', width: 15, height: 2, left: 0 },
+    textStyle: {
+      size: '1.25em',
+      family: 'Arial',
+      color: 'rgba(0, 0, 0, 0.87)',
+      left: 35,
+      textAlign: 'left',
+      textBaseline: 'middle',
+    },
+  },
+};
 
-  validate() {
-    const { value, min, max, precision } = this.props;
-    if (typeof value !== 'number') console.warn('value prop should be number!');
-    if (!Number.isInteger(min / precision))
-      console.warn('min prop should be a multiple of precision prop');
-    if (!Number.isInteger(max / precision))
-      console.warn('max prop should be a multiple of precision prop');
-    if (!Number.isInteger(value / precision))
-      console.warn('value prop should be a multiple of precision prop');
-  }
+export default React.forwardRef(function SlideRule(
+  props: SlideRuleProps,
+  ref: React.Ref<any>
+) {
+  const {
+    onChange = (v: number) => {},
+    gap = 10,
+    precision = 1,
+    max = 300,
+    min = 0,
+    value = 150,
+    offWarning = false,
+    direction = 'row',
+    primaryStyle = {},
+    secondaryStyle = {},
+    textStyle = {},
+    style,
+    ...rest
+  } = props;
 
-  render() {
-    const { style, centerComponent, value, offWarning, ...rest } = this.props;
-    const { direction } = rest;
-    if (!offWarning) this.validate();
+  if (!offWarning) validate({ value, min, max, precision });
 
-    return (
-      <div style={styles.createRootStyle(style)}>
-        <Canvas {...rest} value={Number(value)} />
-        <div style={styles.createCenterStyle(direction)}>{centerComponent}</div>
-      </div>
-    );
-  }
+  const def = DEFAULT_PROPS[direction];
+  const { width = def.width, height = def.height, cursor = def.cursor } = rest;
+  const enhancedPrimaryStyle = { ...def.primaryStyle, ...primaryStyle };
+  const enhancedSecondaryStyle = { ...def.secondaryStyle, ...secondaryStyle };
+  const enhancedTextStyle = { ...def.textStyle, ...textStyle };
+
+  return (
+    <div ref={ref} style={styles.createRootStyle(style)}>
+      <Canvas
+        onChange={onChange}
+        gap={gap}
+        precision={precision}
+        max={max}
+        min={min}
+        value={Number(value)}
+        direction={direction}
+        primaryStyle={enhancedPrimaryStyle}
+        secondaryStyle={enhancedSecondaryStyle}
+        textStyle={enhancedTextStyle}
+        width={width}
+        height={height}
+      />
+      <div style={styles.createCenterStyle(direction)}>{cursor}</div>
+    </div>
+  );
+});
+
+function validate(options: {
+  value: number;
+  min: number;
+  max: number;
+  precision: number;
+}) {
+  const { value, min, max, precision } = options;
+  if (typeof value !== 'number') console.warn('value prop should be number!');
+  if (!Number.isInteger(min / precision))
+    console.warn('min prop should be a multiple of precision prop');
+  if (!Number.isInteger(max / precision))
+    console.warn('max prop should be a multiple of precision prop');
+  if (!Number.isInteger(value / precision))
+    console.warn('value prop should be a multiple of precision prop');
 }

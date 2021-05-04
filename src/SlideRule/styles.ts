@@ -11,7 +11,7 @@ const CENTER_STYLE: React.CSSProperties = {
   transform: 'translateX(-50%)',
 };
 
-const CENTER_VERTICAL_STYLE: React.CSSProperties = {
+const CENTER_COLUMN_STYLE: React.CSSProperties = {
   position: 'absolute',
   pointerEvents: 'none',
   top: '50%',
@@ -21,21 +21,36 @@ const CENTER_VERTICAL_STYLE: React.CSSProperties = {
 
 const CANVAS_STYLE: React.CSSProperties = {
   display: 'block',
-  margin: '0 auto',
   transitionDuration: '300ms',
-  transform: 'translateX(0px)',
 };
 
-const createCanvasStyle = (translateX: number): React.CSSProperties =>
-  translateX === 0
-    ? CANVAS_STYLE
-    : { ...CANVAS_STYLE, transform: `translateX(${translateX}px)` };
+const createCanvasStyle = (
+  direction: string,
+  translate: number
+): React.CSSProperties => {
+  if (translate === 0) return CANVAS_STYLE;
+  switch (direction) {
+    case 'column':
+    case 'column-reverse':
+      return { ...CANVAS_STYLE, transform: `translateY(${translate}px)` };
+    default:
+      return { ...CANVAS_STYLE, transform: `translateX(${translate}px)` };
+  }
+};
 
-const createRootStyle = (style: React.CSSProperties): React.CSSProperties =>
+const createRootStyle = (style?: React.CSSProperties): React.CSSProperties =>
   style ? { ...ROOT_STYLE, ...style } : ROOT_STYLE;
 
-const createCenterStyle = (vertical: boolean): React.CSSProperties =>
-  vertical ? CENTER_VERTICAL_STYLE : CENTER_STYLE;
+// todo: change type of direction
+const createCenterStyle = (direction: string): React.CSSProperties => {
+  switch (direction) {
+    case 'column':
+    case 'column-reverse':
+      return CENTER_COLUMN_STYLE;
+    default:
+      return CENTER_STYLE;
+  }
+};
 
 export default {
   createCanvasStyle,

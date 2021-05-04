@@ -4,35 +4,46 @@ import styles from './styles.ts';
 import util from './util';
 
 export default class Canvas extends React.PureComponent {
-  pageX = 0;
+  coordinate = 0;
   isTouching = false;
   touchPoints = [];
-  state = { translateX: 0 };
+  state = { translate: 0 };
   browserEnv = window.hasOwnProperty('ontouchstart');
   canvasRef = React.createRef();
   currentValue = this.props.value;
+
+  getCoordinate = (e) => {
+    const { pageX, pageY } = e.touches?.[0] ?? e;
+
+    switch (this.props.direction) {
+      case 'column':
+        return pageY;
+      default:
+        return pageX;
+    }
+  };
 
   handleTouchStart = (e) => {
     if (this.isTouching) return;
 
     this.isTouching = true;
-    const { pageX } = e.touches?.[0] || e;
-    this.addTouchPoint(pageX);
-    this.pageX = pageX;
+    const coordinate = this.getCoordinate(e);
+    this.addTouchPoint(coordinate);
+    this.coordinate = coordinate;
   };
 
   handleTouchMove = (e) => {
     if (!this.isTouching) return;
 
-    const { pageX } = e.touches?.[0] || e;
-    this.addTouchPoint(pageX);
-    const deltaX = pageX - this.pageX;
+    const coordinate = this.getCoordinate(e);
+    this.addTouchPoint(coordinate);
+    const delta = coordinate - this.coordinate;
 
-    if (Math.abs(deltaX) < this.props.gap) return;
-    if (this.rebound(deltaX)) return;
+    if (Math.abs(delta) < this.props.gap) return;
+    if (this.rebound(delta)) return;
 
-    this.pageX = pageX;
-    this.moveGradations(deltaX);
+    this.coordinate = coordinate;
+    this.moveGradations(delta);
   };
 
   handleTouchEnd = () => {
@@ -40,27 +51,27 @@ export default class Canvas extends React.PureComponent {
     this.isTouching = false;
     if (this.browserEnv)
       this.moveGradations(util.calcInertialShfitInPx(this.touchPoints));
-    this.setState({ translateX: 0 });
+    this.setState({ translate: 0 });
     this.touchPoints = [];
   };
 
   addTouchPoint = (shift) =>
     this.touchPoints.push({ time: new Date().getTime(), shift });
 
-  rebound(deltaX) {
+  rebound(delta) {
     const { max, min } = this.props;
 
-    if (!util.isOverBoundary({ max, min, deltaX, value: this.currentValue }))
+    if (!util.isOverBoundary({ max, min, delta, value: this.currentValue }))
       return false;
 
-    const translateX = util.calcReboundTranslateX(deltaX);
-    this.setState({ translateX });
+    const translate = util.calcReboundTranslate(delta);
+    this.setState({ translate });
     return true;
   }
 
-  moveGradations(diffPx) {
+  moveGradations(delta) {
     const { gap, precision, onChange } = this.props;
-    const diff = Math.round(-diffPx / gap);
+    const diff = Math.round(-delta / gap);
     let moveValue = Math.abs(diff);
 
     const draw = () => {
@@ -79,7 +90,7 @@ export default class Canvas extends React.PureComponent {
   }
 
   drawCanvas() {
-    const { min, max, precision, gap, width } = this.props;
+    const { min, max, precision, gap } = this.props;
     this.currentValue = util.adjustValue({
       max,
       min,
@@ -87,26 +98,30 @@ export default class Canvas extends React.PureComponent {
       value: this.currentValue,
     });
     const canvas = this.canvasRef.current;
+    const { direction, width, height } = this.props;
+    const basis = util.getBasis(direction, width, height);
+
     if (!canvas) return;
-    const { primaryStyles, secondaryStyles, textStyles } = this.props;
-    const { from, to, calcX } = util.calcFromTo({
+    const { from, to, calcGradationCoordinate } = util.calcFromTo({
       max,
       min,
       precision,
       gap,
-      width,
+      basis,
       value: this.currentValue,
     });
+    const { primaryStyle, secondaryStyle, textStyle } = this.props;
 
     drawingUtil.drawCanvas({
       canvas,
       precision,
-      primaryStyles,
-      secondaryStyles,
-      textStyles,
+      primaryStyle,
+      secondaryStyle,
+      textStyle,
       from,
       to,
-      calcX,
+      calcGradationCoordinate,
+      direction,
     });
   }
 
@@ -119,8 +134,8 @@ export default class Canvas extends React.PureComponent {
   }
 
   render() {
-    const { width, height, value = null } = this.props;
-    const { translateX } = this.state;
+    const { width, height, value = null, direction } = this.props;
+    const { translate } = this.state;
     if (value !== null) this.currentValue = value;
 
     return (
@@ -128,7 +143,7 @@ export default class Canvas extends React.PureComponent {
         ref={this.canvasRef}
         width={width}
         height={height}
-        style={styles.createCanvasStyle(translateX)}
+        style={styles.createCanvasStyle(direction, translate)}
         onTouchStart={this.handleTouchStart}
         onMouseDown={this.handleTouchStart}
         onTouchMove={this.handleTouchMove}
@@ -140,7 +155,3 @@ export default class Canvas extends React.PureComponent {
     );
   }
 }
-
-// memo
-// 5. 세로 표현 어케하지? rotation으로 할까?
-// 6. mouseleave때문에 pointerEvents 넣었는데, IE 11미만은 안 되네

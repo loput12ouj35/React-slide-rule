@@ -5,6 +5,7 @@ import {
   ResizeObserverExample,
   BasicExample,
   Playground,
+  VerticalExample,
 } from 'Examples';
 
 export default React.memo(function App() {
@@ -18,6 +19,8 @@ export default React.memo(function App() {
       <FullWidthExample />
       <h3>Full width with ResizeObserver</h3>
       <ResizeObserverExample />
+      <h3>Vertical</h3>
+      <VerticalExample />
       {/* <h3>Playgorund</h3>
       <Playground /> */}
     </main>

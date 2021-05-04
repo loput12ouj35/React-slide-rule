@@ -1,50 +1,83 @@
 import util from './util';
 
-const _drawLine = (ctx, x, { width, height, color, top }) => {
-  ctx.moveTo(x, top);
+const _drawVerticalLine = (ctx, coordinate, style) => {
+  const { width, height, color, top } = style;
+
   ctx.lineWidth = width;
-  ctx.lineTo(x, height);
   ctx.strokeStyle = color;
+  ctx.moveTo(coordinate, top);
+  ctx.lineTo(coordinate, height);
   ctx.stroke();
 };
 
-const _drawNumberText = (ctx, text, x, { size, family, color, top }) => {
+const _drawLine = (ctx, coordinate, style) => {
+  const { width, height, color, left } = style;
+
+  ctx.lineWidth = height;
+  ctx.strokeStyle = color;
+  ctx.moveTo(left, coordinate);
+  ctx.lineTo(width, coordinate);
+  ctx.stroke();
+};
+
+const _drawTextFromTop = ({ ctx, text, coordinate, textStyle: { top } }) =>
+  ctx.fillText(text, coordinate, top);
+
+const _drawTextFromLeft = ({ ctx, text, coordinate, textStyle: { left } }) =>
+  ctx.fillText(text, left, coordinate);
+
+const _getDrawFns = (direction) => {
+  switch (direction) {
+    case 'column':
+    case 'column-reverse':
+      return [_drawLine, _drawTextFromLeft];
+    default:
+      return [_drawVerticalLine, _drawTextFromTop];
+  }
+};
+
+const _applyNumberTextStyle = (ctx, textStyle) => {
+  const { size, family, color, textAlign, textBaseline } = textStyle;
   ctx.fillStyle = color;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'top';
+  ctx.textAlign = textAlign;
+  ctx.textBaseline = textBaseline;
   ctx.font = `${size} ${family}`;
-  ctx.fillText(text, x, top);
 };
 
 const _calcNumberText = (i, precision) => {
   const number = i * precision;
   if (precision >= 0.1) return number;
   const decimalPlace = util.calcNumberOfDecimalPlace(precision);
+
   return number.toFixed(decimalPlace - 1);
 };
 
 const drawCanvas = ({
   canvas,
   precision,
-  primaryStyles,
-  secondaryStyles,
-  textStyles,
+  primaryStyle,
+  secondaryStyle,
+  textStyle,
   from,
   to,
-  calcX,
+  calcGradationCoordinate,
+  direction,
 }) => {
   const ctx = canvas.getContext('2d');
+  const [drawLine, drawText] = _getDrawFns(direction);
+
+  _applyNumberTextStyle(ctx, textStyle);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   for (let i = from; i <= to; i++) {
-    const x = calcX(i);
+    const coordinate = calcGradationCoordinate(i);
 
     ctx.beginPath();
     if (i % 10 === 0) {
-      _drawLine(ctx, x, primaryStyles);
+      drawLine(ctx, coordinate, primaryStyle);
       const text = _calcNumberText(i, precision);
-      _drawNumberText(ctx, text, x, textStyles);
-    } else _drawLine(ctx, x, secondaryStyles);
+      drawText({ ctx, text, coordinate, textStyle });
+    } else drawLine(ctx, coordinate, secondaryStyle);
 
     ctx.closePath();
   }

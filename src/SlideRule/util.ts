@@ -6,15 +6,15 @@ Math.log10 = Math.log10 ?? ((x) => Math.log(x) * Math.LOG10E);
 const isOverBoundary = (options: {
   min: number;
   max: number;
-  deltaX: number;
+  delta: number;
   value: number;
 }) => {
-  const { min, max, deltaX, value } = options;
-  return (value <= min && deltaX > 0) || (value >= max && deltaX < 0);
+  const { min, max, delta, value } = options;
+  return (value <= min && delta > 0) || (value >= max && delta < 0);
 };
 
-const calcReboundTranslateX = (deltaX: number): number =>
-  Math.sign(deltaX) * 1.5988 * Math.abs(deltaX) ** 0.7962;
+const calcReboundTranslate = (delta: number): number =>
+  Math.sign(delta) * 1.5988 * Math.abs(delta) ** 0.7962;
 
 const calcInertialShfitInPx = (touchPoints: Array<TouchPoint>): number => {
   if (touchPoints.length < 4) return 0;
@@ -37,37 +37,50 @@ const adjustValue = (options: {
 const calcNumberOfDecimalPlace = (precision: number): number =>
   -Math.floor(Math.log10(precision));
 
+const getBasis = (direction: string, width: number, height: number): number => {
+  switch (direction) {
+    case 'column':
+    case 'column-reverse':
+      return height;
+    default:
+      return width;
+  }
+};
+
 const calcFromTo = (options: {
   min: number;
   max: number;
   precision: number;
   gap: number;
-  width: number;
+  basis: number;
   value: number;
 }) => {
-  const { min, max, precision, gap, width, value } = options;
-  const halfWidth = width / 2;
+  const { min, max, precision, gap, basis, value } = options;
+  const halfBasis = basis / 2;
   const diffCurrentMin = ((value - min) * gap) / precision;
-  const _startValue = value - Math.floor(halfWidth / gap) * precision;
+  const _startValue = value - Math.floor(halfBasis / gap) * precision;
   const startValue = Math.max(min, Math.min(_startValue, max));
-  const _endValue = startValue + (width / gap) * precision;
+  const _endValue = startValue + (basis / gap) * precision;
   const endValue = Math.min(_endValue, max);
-  const originX =
-    diffCurrentMin > halfWidth
-      ? halfWidth - ((value - startValue) * gap) / precision
-      : halfWidth - diffCurrentMin;
+  const originPoint =
+    diffCurrentMin > halfBasis
+      ? halfBasis - ((value - startValue) * gap) / precision
+      : halfBasis - diffCurrentMin;
 
   const from = Math.round(startValue / precision);
   const to = endValue / precision;
-  const calcX = (i: number) => originX + (i - startValue / precision) * gap;
-  return { from, to, calcX };
+  const calcGradationCoordinate = (i: number) =>
+    originPoint + (i - startValue / precision) * gap;
+
+  return { from, to, calcGradationCoordinate };
 };
 
 export default {
   isOverBoundary,
-  calcReboundTranslateX,
+  calcReboundTranslate,
   calcInertialShfitInPx,
   adjustValue,
   calcNumberOfDecimalPlace,
+  getBasis,
   calcFromTo,
 };

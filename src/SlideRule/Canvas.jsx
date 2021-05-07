@@ -5,17 +5,33 @@ import util from './util';
 
 export default class Canvas extends React.PureComponent {
   coordinate = 0;
+
   isTouching = false;
+
   touchPoints = [];
+
   state = { translate: 0 };
-  browserEnv = window.hasOwnProperty('ontouchstart');
+
+  browserEnv = Boolean(window.ontouchstart);
+
   canvasRef = React.createRef();
+
+  // eslint-disable-next-line react/destructuring-assignment
   currentValue = this.props.value;
+
+  componentDidMount() {
+    this.drawCanvas();
+  }
+
+  componentDidUpdate() {
+    this.drawCanvas();
+  }
 
   getCoordinate = (e) => {
     const { pageX, pageY } = e.touches?.[0] ?? e;
+    const { direction } = this.props;
 
-    switch (this.props.direction) {
+    switch (direction) {
       case 'column':
         return pageY;
       default:
@@ -39,7 +55,8 @@ export default class Canvas extends React.PureComponent {
     this.addTouchPoint(coordinate);
     const delta = coordinate - this.coordinate;
 
-    if (Math.abs(delta) < this.props.gap) return;
+    const { gap } = this.props;
+    if (Math.abs(delta) < gap) return;
     if (this.rebound(delta)) return;
 
     this.coordinate = coordinate;
@@ -83,7 +100,7 @@ export default class Canvas extends React.PureComponent {
       this.currentValue += Math.sign(diff) * precision;
       moveValue -= [64, 16, 4].find((n) => moveValue > n) ?? 1;
       this.drawCanvas();
-      window.requestAnimationFrame(draw);
+      return window.requestAnimationFrame(draw);
     };
 
     window.requestAnimationFrame(draw);
@@ -123,14 +140,6 @@ export default class Canvas extends React.PureComponent {
       calcGradationCoordinate,
       direction,
     });
-  }
-
-  componentDidMount() {
-    this.drawCanvas();
-  }
-
-  componentDidUpdate() {
-    this.drawCanvas();
   }
 
   render() {

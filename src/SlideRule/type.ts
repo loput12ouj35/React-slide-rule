@@ -1,3 +1,4 @@
+import React from 'react';
 import { Property } from 'csstype';
 
 export interface TouchPoint {

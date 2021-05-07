@@ -1,3 +1,5 @@
+import React from 'react';
+
 const ROOT_STYLE: React.CSSProperties = {
   position: 'relative',
   overflow: 'hidden',

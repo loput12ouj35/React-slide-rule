@@ -41,7 +41,7 @@ export default React.forwardRef(function SlideRule(
   ref: React.Ref<any>
 ) {
   const {
-    onChange = (v: number) => {},
+    onChange = (v: number) => v,
     gap = 10,
     precision = 1,
     max = 300,

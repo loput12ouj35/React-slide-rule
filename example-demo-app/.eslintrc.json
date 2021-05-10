@@ -6,18 +6,5 @@
         "config": "webpack.config.js"
       }
     }
-  },
-  "overrides": [
-    {
-      "files": [
-        "*.ts",
-        "*.tsx"
-      ],
-      "parserOptions": {
-        "project": [
-          "./tsconfig.json"
-        ]
-      }
-    }
-  ]
+  }
 }

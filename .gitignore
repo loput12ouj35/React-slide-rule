@@ -1,10 +1,5 @@
 # dependencies
 /node_modules
-/.pnp
-.pnp.js
-
-# testing
-/coverage
 
 # production
 /dist
@@ -26,8 +21,3 @@ yarn-error.log*
 ### VisualStudioCode Patch ###
 # Ignore all local history of files
 .history
-
-#migration process
-old/
-react_src/
-webadmin/

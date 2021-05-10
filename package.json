@@ -14,7 +14,7 @@
   "license": "MIT",
   "scripts": {
     "start": "cd example-demo-app && npm start",
-    "build": "babel src --extensions .jsx,.js,.tsx,.ts -d dist",
+    "build": "babel src --extensions .jsx,.js,.tsx,.ts -d dist && tsc",
     "lint": "eslint --ext .jsx,.js,.tsx,.ts src"
   },
   "husky": {

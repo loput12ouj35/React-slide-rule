@@ -9,11 +9,11 @@ exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _drawingUtil = _interopRequireDefault(require("./drawingUtil"));
+var _drawingUtil = _interopRequireDefault(require("./utils/drawingUtil"));
 
-var _styles = _interopRequireDefault(require("./styles"));
+var _styles = _interopRequireDefault(require("./data/styles"));
 
-var _util = _interopRequireDefault(require("./util"));
+var _common = _interopRequireDefault(require("./utils/common"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -119,7 +119,7 @@ var Canvas = /*#__PURE__*/function (_React$PureComponent) {
     _defineProperty(_assertThisInitialized(_this), "handleTouchEnd", function () {
       if (!_this.isTouching) return;
       _this.isTouching = false;
-      if (_this.browserEnv) _this.moveGradations(_util["default"].calcInertialShfitInPx(_this.touchPoints));
+      if (_this.browserEnv) _this.moveGradations(_common["default"].calcInertialShfitInPx(_this.touchPoints));
 
       _this.setState({
         translate: 0
@@ -154,14 +154,14 @@ var Canvas = /*#__PURE__*/function (_React$PureComponent) {
       var _this$props = this.props,
           max = _this$props.max,
           min = _this$props.min;
-      if (!_util["default"].isOverBoundary({
+      if (!_common["default"].isOverBoundary({
         max: max,
         min: min,
         delta: delta,
         value: this.currentValue
       })) return false;
 
-      var translate = _util["default"].calcReboundTranslate(delta);
+      var translate = _common["default"].calcReboundTranslate(delta);
 
       this.setState({
         translate: translate
@@ -186,7 +186,7 @@ var Canvas = /*#__PURE__*/function (_React$PureComponent) {
         if (moveValue < 1) {
           if (precision >= 1) return onChange(_this2.currentValue);
 
-          var decimalPlace = _util["default"].calcNumberOfDecimalPlace(precision);
+          var decimalPlace = _common["default"].calcNumberOfDecimalPlace(precision);
 
           return onChange(Number(_this2.currentValue.toFixed(decimalPlace)));
         }
@@ -211,7 +211,7 @@ var Canvas = /*#__PURE__*/function (_React$PureComponent) {
           max = _this$props3.max,
           precision = _this$props3.precision,
           gap = _this$props3.gap;
-      this.currentValue = _util["default"].adjustValue({
+      this.currentValue = _common["default"].adjustValue({
         max: max,
         min: min,
         precision: precision,
@@ -223,11 +223,11 @@ var Canvas = /*#__PURE__*/function (_React$PureComponent) {
           width = _this$props4.width,
           height = _this$props4.height;
 
-      var basis = _util["default"].getBasis(direction, width, height);
+      var basis = _common["default"].getBasis(direction, width, height);
 
       if (!canvas) return;
 
-      var _util$calcFromTo = _util["default"].calcFromTo({
+      var _util$calcFromTo = _common["default"].calcFromTo({
         max: max,
         min: min,
         precision: precision,

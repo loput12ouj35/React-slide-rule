@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var _util = _interopRequireDefault(require("./util"));
+var _common = _interopRequireDefault(require("./common"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -88,7 +88,7 @@ var _calcNumberText = function _calcNumberText(i, precision) {
   var number = i * precision;
   if (precision >= 0.1) return number;
 
-  var decimalPlace = _util["default"].calcNumberOfDecimalPlace(precision);
+  var decimalPlace = _common["default"].calcNumberOfDecimalPlace(precision);
 
   return number.toFixed(decimalPlace - 1);
 };

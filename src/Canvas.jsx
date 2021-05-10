@@ -1,7 +1,7 @@
 import React from 'react';
-import drawingUtil from './drawingUtil';
-import styles from './styles';
-import util from './util';
+import drawingUtil from './utils/drawingUtil';
+import styles from './data/styles';
+import util from './utils/common';
 
 export default class Canvas extends React.PureComponent {
   coordinate = 0;

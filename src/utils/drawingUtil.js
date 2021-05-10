@@ -1,4 +1,4 @@
-import util from './util';
+import util from './common';
 
 const _drawVerticalLine = (ctx, coordinate, style) => {
   const { width, height, color, top } = style;

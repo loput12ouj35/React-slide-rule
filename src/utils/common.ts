@@ -1,4 +1,4 @@
-import { TouchPoint } from './type';
+import { TouchPoint } from '../data/type';
 
 // Log10 polyfill. IE does not support log10().
 Math.log10 = Math.log10 ?? ((x: number): number => Math.log(x) * Math.LOG10E);

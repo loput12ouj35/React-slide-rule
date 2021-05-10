@@ -1,7 +1,7 @@
 import React from 'react';
 import Canvas from './Canvas';
-import styles from './styles';
-import { SlideRuleProps } from './type';
+import styles from './data/styles';
+import { SlideRuleProps } from './data/type';
 
 const DEFAULT_PROPS = {
   row: {

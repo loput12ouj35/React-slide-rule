@@ -1,8 +1,9 @@
 # dependencies
-/node_modules
+node_modules
 
 # production
 /dist
+/example-demo-app/dist
 
 # misc
 .DS_Store

@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { SlideRule } from 'SlideRule';
+import SlideRule from '../SlideRule';
 
 const [min, max, precision] = [100, 300, 1];
 const STYLES = {

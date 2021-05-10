@@ -1,6 +1,6 @@
 import React from 'react';
 import drawingUtil from './drawingUtil';
-import styles from './styles.ts';
+import styles from './styles';
 import util from './util';
 
 export default class Canvas extends React.PureComponent {

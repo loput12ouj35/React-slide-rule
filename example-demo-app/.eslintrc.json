@@ -1,0 +1,23 @@
+{
+  "extends": "../.eslintrc.json",
+  "settings": {
+    "import/resolver": {
+      "webpack": {
+        "config": "webpack.config.js"
+      }
+    }
+  },
+  "overrides": [
+    {
+      "files": [
+        "*.ts",
+        "*.tsx"
+      ],
+      "parserOptions": {
+        "project": [
+          "./tsconfig.json"
+        ]
+      }
+    }
+  ]
+}

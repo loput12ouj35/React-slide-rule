@@ -3,6 +3,7 @@
     "browser": true,
     "es6": true
   },
+  "root": true,
   "extends": [
     "airbnb",
     "prettier",
@@ -16,13 +17,6 @@
     "jsx-a11y",
     "import"
   ],
-  "settings": {
-    "import/resolver": {
-      "webpack": {
-        "config": "webpack.config.js"
-      }
-    }
-  },
   "rules": {
     "react/prop-types": 0,
     "react/jsx-one-expression-per-line": 0,
@@ -46,7 +40,17 @@
     "prettier/prettier": 2
   },
   "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "project": "./tsconfig.json"
-  }
+  "overrides": [
+    {
+      "files": [
+        "*.ts",
+        "*.tsx"
+      ],
+      "parserOptions": {
+        "project": [
+          "./tsconfig.json"
+        ]
+      }
+    }
+  ]
 }

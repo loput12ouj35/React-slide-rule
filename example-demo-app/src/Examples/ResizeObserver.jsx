@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { SlideRule } from 'SlideRule';
+import SlideRule from '../SlideRule';
 
 export default React.memo(function () {
   const [value, setValue] = useState(150);

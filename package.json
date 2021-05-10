@@ -1,16 +1,29 @@
 {
   "name": "react-slide-rule",
   "version": "1.0.0",
-  "description": "",
-  "main": "src/index.js",
+  "description": "Slide rule component based on React.js",
+  "main": "dist/index.js",
   "keywords": [
-    "eact",
+    "react",
     "slide",
     "rule",
     "slider",
     "ruler"
   ],
-  "author": "Jae Yong Park",
+  "homepage": "https://github.com/loput12ouj35/React-slide-rule",
+  "bugs": {
+    "url": "https://github.com/loput12ouj35/React-slide-rule/issues",
+    "email": "loput12ouj35@gmail.com"
+  },
+  "author": {
+    "name": "Jae Yong Park",
+    "email": "loput12ouj35@gmail.com",
+    "url": "https://github.com/loput12ouj35"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loput12ouj35/React-slide-rule.git"
+  },
   "license": "MIT",
   "scripts": {
     "start": "cd example-demo-app && npm start",

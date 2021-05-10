@@ -1,0 +1,10 @@
+.git
+node_modules/
+example-demo-app/
+package-lock.json
+src2/
+.eslintignore
+.eslintrc.json
+babel.config.json
+tsconfig.json
+webpack.config.js

@@ -1,5 +1,5 @@
 {
-  "name": "react-slide-rule",
+  "name": "demo-for-react-slide-rule",
   "private": true,
   "scripts": {
     "start": "webpack serve --open --hot --config-name dev",
@@ -10,7 +10,8 @@
     "@babel/polyfill": "^7.12.1",
     "csstype": "^3.0.8",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "react-slide-rule": "file:.."
   },
   "devDependencies": {
     "@babel/core": "^7.14.0",

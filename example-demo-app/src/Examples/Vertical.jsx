@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import SlideRule from '../SlideRule';
+import SlideRule from 'react-slide-rule';
 
 const STYLES = {
   root: {

@@ -8,7 +8,7 @@ module.exports = {
   mode: isProduction ? 'production' : 'development',
   devtool: isProduction ? 'hidden-source-map' : 'eval',
 
-  entry: './src/index.jsx',
+  entry: ['@babel/polyfill', './src/index.jsx'],
 
   resolve: {
     modules: ['node_modules', path.resolve(__dirname, 'src')],

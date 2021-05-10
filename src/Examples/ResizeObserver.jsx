@@ -8,14 +8,17 @@ export default React.memo(function () {
   const adjustWidth = useCallback(() => setWidth(root.current.offsetWidth), []);
 
   useEffect(() => {
+    if (!window.ResizeObserver) return null;
     const observer = new ResizeObserver(adjustWidth);
     observer.observe(root.current);
     return () => observer.unobserve();
   }, []);
 
-  return (
+  return window.ResizeObserver ? (
     <div ref={root}>
       <SlideRule value={value} onChange={setValue} width={width} />
     </div>
+  ) : (
+    <p>This browser dose not support ResizeObserver!</p>
   );
 });

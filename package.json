@@ -8,7 +8,9 @@
     "slide",
     "rule",
     "slider",
-    "ruler"
+    "ruler",
+    "number",
+    "input"
   ],
   "homepage": "https://github.com/loput12ouj35/React-slide-rule",
   "bugs": {

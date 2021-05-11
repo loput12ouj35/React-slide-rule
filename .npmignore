@@ -12,3 +12,8 @@ webpack.config.js
 .gitattributes
 .prettierrrc.json
 docs/
+
+# unused d.ts files
+dist/data/styles.d.ts
+dist/utils/*.d.ts
+dist/Canvas.d.ts

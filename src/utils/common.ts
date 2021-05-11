@@ -40,6 +40,7 @@ const calcNumberOfDecimalPlace = (precision: number): number =>
 const getBasis = (axis: Axis, width: number, height: number): number => {
   switch (axis) {
     case 'y':
+    case 'y-reverse':
       return height;
     default:
       return width;
@@ -67,9 +68,9 @@ const calcFromTo = (options: {
       : halfBasis - diffCurrentMin;
 
   const from = Math.round(startValue / precision);
-  const to = endValue / precision;
+  const to = Math.round(endValue / precision);
   const calcGradationCoordinate = (i: number): number =>
-    originPoint + (i - startValue / precision) * gap;
+    originPoint + (i - from) * gap;
 
   return { from, to, calcGradationCoordinate };
 };

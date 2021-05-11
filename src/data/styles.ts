@@ -34,6 +34,7 @@ const createCanvasStyle = (
   if (translate === 0) return CANVAS_STYLE;
   switch (axis) {
     case 'y':
+    case 'y-reverse':
       return { ...CANVAS_STYLE, transform: `translateY(${translate}px)` };
     default:
       return { ...CANVAS_STYLE, transform: `translateX(${translate}px)` };
@@ -46,6 +47,7 @@ const createRootStyle = (style?: React.CSSProperties): React.CSSProperties =>
 const createCenterStyle = (axis: Axis): React.CSSProperties => {
   switch (axis) {
     case 'y':
+    case 'y-reverse':
       return CENTER_COLUMN_STYLE;
     default:
       return CENTER_STYLE;

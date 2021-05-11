@@ -29,6 +29,7 @@ const _drawTextFromLeft = ({ ctx, text, coordinate, textStyle: { left } }) =>
 const _getDrawFns = (axis) => {
   switch (axis) {
     case 'y':
+    case 'y-reverse':
       return [_drawLine, _drawTextFromLeft];
     default:
       return [_drawVerticalLine, _drawTextFromTop];

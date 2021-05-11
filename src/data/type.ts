@@ -6,7 +6,7 @@ export interface TouchPoint {
   shift: number;
 }
 
-export type Axis = 'x' | 'y';
+export type Axis = 'x' | 'y' | 'x-reverse' | 'y-reverse';
 
 export interface SlideRuleProps {
   onChange?: (v: number) => any;

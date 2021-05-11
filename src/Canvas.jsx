@@ -33,6 +33,7 @@ export default class Canvas extends React.PureComponent {
 
     switch (axis) {
       case 'y':
+      case 'y-reverse':
         return pageY;
       default:
         return pageX;

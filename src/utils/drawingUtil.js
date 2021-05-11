@@ -26,10 +26,9 @@ const _drawTextFromTop = ({ ctx, text, coordinate, textStyle: { top } }) =>
 const _drawTextFromLeft = ({ ctx, text, coordinate, textStyle: { left } }) =>
   ctx.fillText(text, left, coordinate);
 
-const _getDrawFns = (direction) => {
-  switch (direction) {
-    case 'column':
-    case 'column-reverse':
+const _getDrawFns = (axis) => {
+  switch (axis) {
+    case 'y':
       return [_drawLine, _drawTextFromLeft];
     default:
       return [_drawVerticalLine, _drawTextFromTop];
@@ -62,10 +61,10 @@ const drawCanvas = ({
   from,
   to,
   calcGradationCoordinate,
-  direction,
+  axis,
 }) => {
   const ctx = canvas.getContext('2d');
-  const [drawLine, drawText] = _getDrawFns(direction);
+  const [drawLine, drawText] = _getDrawFns(axis);
 
   _applyNumberTextStyle(ctx, textStyle);
   ctx.clearRect(0, 0, canvas.width, canvas.height);

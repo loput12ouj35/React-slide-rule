@@ -4,11 +4,11 @@ import styles from './data/styles';
 import { SlideRuleProps } from './data/type';
 
 interface DefaultProps {
-  [direction: string]: SlideRuleProps;
+  [axis: string]: SlideRuleProps;
 }
 
 const DEFAULT_PROPS: DefaultProps = {
-  row: {
+  x: {
     width: 300,
     height: 55,
     cursor: <div style={{ width: 4, height: 35, background: '#2AA' }} />,
@@ -23,7 +23,7 @@ const DEFAULT_PROPS: DefaultProps = {
       textBaseline: 'top',
     },
   },
-  column: {
+  y: {
     width: 75,
     height: 300,
     cursor: <div style={{ width: 35, height: 4, backgroundColor: '#2AA' }} />,
@@ -51,19 +51,19 @@ export default React.forwardRef(function SlideRule(
     max = 300,
     min = 0,
     value = 150,
-    offWarning = true,
-    direction = 'row',
+    axis = 'x',
     majorStyle = {},
     minorStyle = {},
     textStyle = {},
     unit = '',
     style,
+    showWarning = false,
     ...rest
   } = props;
 
-  if (!offWarning) validate({ value, min, max, precision });
+  if (!showWarning) validate({ value, min, max, precision });
 
-  const def = DEFAULT_PROPS[direction];
+  const def = DEFAULT_PROPS[axis];
   const { width = def.width, height = def.height, cursor = def.cursor } = rest;
   const enhancedMajorStyle = { ...def.majorStyle, ...majorStyle };
   const enhancedMinorStyle = { ...def.minorStyle, ...minorStyle };
@@ -78,7 +78,7 @@ export default React.forwardRef(function SlideRule(
         max={max}
         min={min}
         value={Number(value)}
-        direction={direction}
+        axis={axis}
         majorStyle={enhancedMajorStyle}
         minorStyle={enhancedMinorStyle}
         textStyle={enhancedTextStyle}
@@ -86,7 +86,7 @@ export default React.forwardRef(function SlideRule(
         height={height}
         unit={unit}
       />
-      <div style={styles.createCenterStyle(direction)}>{cursor}</div>
+      <div style={styles.createCenterStyle(axis)}>{cursor}</div>
     </div>
   );
 });

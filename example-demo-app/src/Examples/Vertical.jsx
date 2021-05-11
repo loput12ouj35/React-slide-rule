@@ -22,7 +22,7 @@ export default React.memo(function () {
         <p style={STYLES.value}>{value}x</p>
       </div>
       <SlideRule
-        direction="column"
+        axis="y"
         value={value}
         onChange={setValue}
         precision={0.05}

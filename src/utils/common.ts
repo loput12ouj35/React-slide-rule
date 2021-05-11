@@ -1,4 +1,4 @@
-import { TouchPoint } from '../data/type';
+import { Axis, TouchPoint } from '../data/type';
 
 // Log10 polyfill. IE does not support log10().
 Math.log10 = Math.log10 ?? ((x: number): number => Math.log(x) * Math.LOG10E);
@@ -37,10 +37,9 @@ const adjustValue = (options: {
 const calcNumberOfDecimalPlace = (precision: number): number =>
   -Math.floor(Math.log10(precision));
 
-const getBasis = (direction: string, width: number, height: number): number => {
-  switch (direction) {
-    case 'column':
-    case 'column-reverse':
+const getBasis = (axis: Axis, width: number, height: number): number => {
+  switch (axis) {
+    case 'y':
       return height;
     default:
       return width;

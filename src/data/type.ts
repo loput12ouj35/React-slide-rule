@@ -6,6 +6,8 @@ export interface TouchPoint {
   shift: number;
 }
 
+export type Axis = 'x' | 'y';
+
 export interface SlideRuleProps {
   onChange?: (v: number) => any;
   width?: number;
@@ -47,7 +49,6 @@ export interface SlideRuleProps {
   value?: number;
   style?: React.CSSProperties;
   cursor?: React.ReactElement;
-  offWarning?: boolean;
-  direction?: 'row' | 'column';
-  // direction?: 'row' | 'column' | 'column-reverse' | 'row-reverse';
+  showWarning?: boolean;
+  axis?: Axis;
 }

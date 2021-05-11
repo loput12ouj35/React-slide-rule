@@ -29,10 +29,10 @@ export default class Canvas extends React.PureComponent {
 
   getCoordinate = (e) => {
     const { pageX, pageY } = e.touches?.[0] ?? e;
-    const { direction } = this.props;
+    const { axis } = this.props;
 
-    switch (direction) {
-      case 'column':
+    switch (axis) {
+      case 'y':
         return pageY;
       default:
         return pageX;
@@ -115,8 +115,8 @@ export default class Canvas extends React.PureComponent {
       value: this.currentValue,
     });
     const canvas = this.canvasRef.current;
-    const { direction, width, height } = this.props;
-    const basis = util.getBasis(direction, width, height);
+    const { axis, width, height } = this.props;
+    const basis = util.getBasis(axis, width, height);
 
     if (!canvas) return;
     const { from, to, calcGradationCoordinate } = util.calcFromTo({
@@ -139,12 +139,12 @@ export default class Canvas extends React.PureComponent {
       from,
       to,
       calcGradationCoordinate,
-      direction,
+      axis,
     });
   }
 
   render() {
-    const { width, height, value = null, direction } = this.props;
+    const { width, height, value = null, axis } = this.props;
     const { translate } = this.state;
     if (value !== null) this.currentValue = value;
 
@@ -154,7 +154,7 @@ export default class Canvas extends React.PureComponent {
           ref={this.canvasRef}
           width={width}
           height={height}
-          style={styles.createCanvasStyle(direction, translate)}
+          style={styles.createCanvasStyle(axis, translate)}
           onTouchStart={this.handleTouchStart}
           onMouseDown={this.handleTouchStart}
           onTouchMove={this.handleTouchMove}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Axis } from './type';
 
 const ROOT_STYLE: React.CSSProperties = {
   position: 'relative',
@@ -27,13 +28,12 @@ const CANVAS_STYLE: React.CSSProperties = {
 };
 
 const createCanvasStyle = (
-  direction: string,
+  axis: Axis,
   translate: number
 ): React.CSSProperties => {
   if (translate === 0) return CANVAS_STYLE;
-  switch (direction) {
-    case 'column':
-    case 'column-reverse':
+  switch (axis) {
+    case 'y':
       return { ...CANVAS_STYLE, transform: `translateY(${translate}px)` };
     default:
       return { ...CANVAS_STYLE, transform: `translateX(${translate}px)` };
@@ -43,11 +43,9 @@ const createCanvasStyle = (
 const createRootStyle = (style?: React.CSSProperties): React.CSSProperties =>
   style ? { ...ROOT_STYLE, ...style } : ROOT_STYLE;
 
-// todo: change type of direction
-const createCenterStyle = (direction: string): React.CSSProperties => {
-  switch (direction) {
-    case 'column':
-    case 'column-reverse':
+const createCenterStyle = (axis: Axis): React.CSSProperties => {
+  switch (axis) {
+    case 'y':
       return CENTER_COLUMN_STYLE;
     default:
       return CENTER_STYLE;

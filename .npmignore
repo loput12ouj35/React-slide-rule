@@ -11,3 +11,4 @@ webpack.config.js
 .editorconfig
 .gitattributes
 .prettierrrc.json
+docs/

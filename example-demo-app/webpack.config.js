@@ -18,8 +18,8 @@ const base = {
     ],
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js',
+    path: path.resolve(__dirname, '../docs'),
+    filename: 'index-bundle.js',
   },
   plugins: [
     new HtmlWebpackPlugin({ template: './src/index.html' }),

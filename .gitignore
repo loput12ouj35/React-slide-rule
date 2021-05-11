@@ -5,6 +5,10 @@ node_modules
 /dist
 /example-demo-app/dist
 
+# live demo (example app)
+/docs/*.map
+/docs/*.LICENSE.txt
+
 # misc
 .DS_Store
 .env.local

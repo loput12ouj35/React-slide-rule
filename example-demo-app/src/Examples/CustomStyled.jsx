@@ -26,7 +26,7 @@ export default React.memo(function () {
         textStyle={{ color: 'white' }}
         gap={20}
       />
-      <p style={STYLES.p}>The current value is: {value}</p>
+      <p style={STYLES.p}>The current value is {value}</p>
     </div>
   );
 });

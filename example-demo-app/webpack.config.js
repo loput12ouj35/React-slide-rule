@@ -32,6 +32,12 @@ module.exports = [
     name: 'dev',
     mode: 'development',
     devtool: 'eval',
+    devServer: {
+      port: 3000,
+      open: true,
+      liveReload: true,
+      host: '0.0.0.0',
+    },
     ...base,
   },
   {

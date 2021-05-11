@@ -148,19 +148,22 @@ export default class Canvas extends React.PureComponent {
     if (value !== null) this.currentValue = value;
 
     return (
-      <canvas
-        ref={this.canvasRef}
-        width={width}
-        height={height}
-        style={styles.createCanvasStyle(direction, translate)}
-        onTouchStart={this.handleTouchStart}
-        onMouseDown={this.handleTouchStart}
-        onTouchMove={this.handleTouchMove}
-        onMouseMove={this.handleTouchMove}
-        onTouchEnd={this.handleTouchEnd}
-        onMouseUp={this.handleTouchEnd}
-        onMouseLeave={this.handleTouchEnd}
-      />
+      <>
+        <canvas
+          ref={this.canvasRef}
+          width={width}
+          height={height}
+          style={styles.createCanvasStyle(direction, translate)}
+          onTouchStart={this.handleTouchStart}
+          onMouseDown={this.handleTouchStart}
+          onTouchMove={this.handleTouchMove}
+          onMouseMove={this.handleTouchMove}
+          onTouchEnd={this.handleTouchEnd}
+          onMouseUp={this.handleTouchEnd}
+          onMouseLeave={this.handleTouchEnd}
+        />
+        <input value={this.currentValue} type="hidden" />
+      </>
     );
   }
 }

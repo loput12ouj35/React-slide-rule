@@ -8,3 +8,6 @@ src/
 babel.config.json
 tsconfig.json
 webpack.config.js
+.editorconfig
+.gitattributes
+.prettierrrc.json

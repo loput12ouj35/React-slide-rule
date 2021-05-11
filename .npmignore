@@ -10,7 +10,7 @@ tsconfig.json
 webpack.config.js
 .editorconfig
 .gitattributes
-.prettierrrc.json
+.prettierrc.json
 docs/
 
 # unused d.ts files

@@ -11,14 +11,14 @@ const DEFAULT_PROPS: DefaultProps = {
   row: {
     width: 300,
     height: 55,
-    cursor: <div style={{ width: 3, height: 35, background: 'blue' }} />,
+    cursor: <div style={{ width: 4, height: 35, background: '#2AA' }} />,
     majorStyle: { color: '#C4C4C4', width: 3, height: 30, top: 0 },
     minorStyle: { color: '#E4E4E4', width: 2, height: 15, top: 0 },
     textStyle: {
       size: '1.25em',
       family: 'Arial',
       color: 'rgba(0, 0, 0, 0.87)',
-      top: 35,
+      top: 36,
       textAlign: 'center',
       textBaseline: 'top',
     },
@@ -26,14 +26,14 @@ const DEFAULT_PROPS: DefaultProps = {
   column: {
     width: 75,
     height: 300,
-    cursor: <div style={{ width: 35, height: 3, backgroundColor: 'red' }} />,
+    cursor: <div style={{ width: 35, height: 4, backgroundColor: '#2AA' }} />,
     majorStyle: { color: '#C4C4C4', width: 30, height: 3, left: 0 },
     minorStyle: { color: '#E4E4E4', width: 15, height: 2, left: 0 },
     textStyle: {
       size: '1.25em',
       family: 'Arial',
       color: 'rgba(0, 0, 0, 0.87)',
-      left: 35,
+      left: 36,
       textAlign: 'left',
       textBaseline: 'middle',
     },
@@ -51,11 +51,12 @@ export default React.forwardRef(function SlideRule(
     max = 300,
     min = 0,
     value = 150,
-    offWarning = false,
+    offWarning = true,
     direction = 'row',
     majorStyle = {},
     minorStyle = {},
     textStyle = {},
+    unit = '',
     style,
     ...rest
   } = props;
@@ -83,6 +84,7 @@ export default React.forwardRef(function SlideRule(
         textStyle={enhancedTextStyle}
         width={width}
         height={height}
+        unit={unit}
       />
       <div style={styles.createCenterStyle(direction)}>{cursor}</div>
     </div>

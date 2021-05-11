@@ -58,6 +58,7 @@ const drawCanvas = ({
   majorStyle,
   minorStyle,
   textStyle,
+  unit,
   from,
   to,
   calcGradationCoordinate,
@@ -75,7 +76,7 @@ const drawCanvas = ({
     ctx.beginPath();
     if (i % 10 === 0) {
       drawLine(ctx, coordinate, majorStyle);
-      const text = _calcNumberText(i, precision);
+      const text = _calcNumberText(i, precision) + unit;
       drawText({ ctx, text, coordinate, textStyle });
     } else drawLine(ctx, coordinate, minorStyle);
 

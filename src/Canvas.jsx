@@ -127,7 +127,7 @@ export default class Canvas extends React.PureComponent {
       basis,
       value: this.currentValue,
     });
-    const { majorStyle, minorStyle, textStyle } = this.props;
+    const { majorStyle, minorStyle, textStyle, unit } = this.props;
 
     drawingUtil.drawCanvas({
       canvas,
@@ -135,6 +135,7 @@ export default class Canvas extends React.PureComponent {
       majorStyle,
       minorStyle,
       textStyle,
+      unit,
       from,
       to,
       calcGradationCoordinate,

@@ -8,16 +8,26 @@ const STYLES = {
     alignItems: 'center',
     position: 'relative',
   },
-  p: { textAlign: 'center' },
+  title: { fontSize: '1rem', margin: 0 },
+  value: { fontSize: '2rem', fontWeight: 700 },
 };
 
 export default React.memo(function () {
-  const [value, setValue] = useState(150);
+  const [value, setValue] = useState(1);
 
   return (
     <div style={STYLES.root}>
-      <p style={STYLES.p}>{value}</p>
-      <SlideRule direction="column" value={value} onChange={setValue} />
+      <p style={STYLES.title}>Zoom</p>
+      <p style={STYLES.value}>{value}x</p>
+      <SlideRule
+        direction="column"
+        value={value}
+        onChange={setValue}
+        precision={0.05}
+        unit="x"
+        min={0.5}
+        max={3}
+      />
     </div>
   );
 });

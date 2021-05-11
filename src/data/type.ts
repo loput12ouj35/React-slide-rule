@@ -39,6 +39,7 @@ export interface SlideRuleProps {
       | 'ideographic'
       | 'bottom';
   };
+  unit?: string;
   gap?: number;
   precision?: number;
   max?: number;

@@ -8,8 +8,8 @@ const DEFAULT_PROPS = {
     width: 300,
     height: 55,
     cursor: <div style={{ width: 3, height: 35, background: 'blue' }} />,
-    primaryStyle: { color: '#C4C4C4', width: 3, height: 30, top: 0 },
-    secondaryStyle: { color: '#E4E4E4', width: 2, height: 15, top: 0 },
+    majorStyle: { color: '#C4C4C4', width: 3, height: 30, top: 0 },
+    minorStyle: { color: '#E4E4E4', width: 2, height: 15, top: 0 },
     textStyle: {
       size: '1.25em',
       family: 'Arial',
@@ -23,8 +23,8 @@ const DEFAULT_PROPS = {
     width: 75,
     height: 300,
     cursor: <div style={{ width: 35, height: 3, backgroundColor: 'red' }} />,
-    primaryStyle: { color: '#C4C4C4', width: 30, height: 3, left: 0 },
-    secondaryStyle: { color: '#E4E4E4', width: 15, height: 2, left: 0 },
+    majorStyle: { color: '#C4C4C4', width: 30, height: 3, left: 0 },
+    minorStyle: { color: '#E4E4E4', width: 15, height: 2, left: 0 },
     textStyle: {
       size: '1.25em',
       family: 'Arial',
@@ -49,8 +49,8 @@ export default React.forwardRef(function SlideRule(
     value = 150,
     offWarning = false,
     direction = 'row',
-    primaryStyle = {},
-    secondaryStyle = {},
+    majorStyle = {},
+    minorStyle = {},
     textStyle = {},
     style,
     ...rest
@@ -60,8 +60,8 @@ export default React.forwardRef(function SlideRule(
 
   const def = DEFAULT_PROPS[direction];
   const { width = def.width, height = def.height, cursor = def.cursor } = rest;
-  const enhancedPrimaryStyle = { ...def.primaryStyle, ...primaryStyle };
-  const enhancedSecondaryStyle = { ...def.secondaryStyle, ...secondaryStyle };
+  const enhancedMajorStyle = { ...def.majorStyle, ...majorStyle };
+  const enhancedMinorStyle = { ...def.minorStyle, ...minorStyle };
   const enhancedTextStyle = { ...def.textStyle, ...textStyle };
 
   return (
@@ -74,8 +74,8 @@ export default React.forwardRef(function SlideRule(
         min={min}
         value={Number(value)}
         direction={direction}
-        primaryStyle={enhancedPrimaryStyle}
-        secondaryStyle={enhancedSecondaryStyle}
+        majorStyle={enhancedMajorStyle}
+        minorStyle={enhancedMinorStyle}
         textStyle={enhancedTextStyle}
         width={width}
         height={height}

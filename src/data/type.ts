@@ -10,14 +10,14 @@ export interface SlideRuleProps {
   onChange: (v: number) => any;
   width: number;
   height: number;
-  primaryStyle: {
+  majorStyle: {
     color: Property.BackgroundColor;
     width: number;
     height: number;
     top?: number;
     left?: number;
   };
-  secondaryStyle: {
+  minorStyle: {
     color: Property.BackgroundColor;
     width: number;
     height: number;

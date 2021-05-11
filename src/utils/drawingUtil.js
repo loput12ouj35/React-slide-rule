@@ -55,8 +55,8 @@ const _calcNumberText = (i, precision) => {
 const drawCanvas = ({
   canvas,
   precision,
-  primaryStyle,
-  secondaryStyle,
+  majorStyle,
+  minorStyle,
   textStyle,
   from,
   to,
@@ -74,10 +74,10 @@ const drawCanvas = ({
 
     ctx.beginPath();
     if (i % 10 === 0) {
-      drawLine(ctx, coordinate, primaryStyle);
+      drawLine(ctx, coordinate, majorStyle);
       const text = _calcNumberText(i, precision);
       drawText({ ctx, text, coordinate, textStyle });
-    } else drawLine(ctx, coordinate, secondaryStyle);
+    } else drawLine(ctx, coordinate, minorStyle);
 
     ctx.closePath();
   }

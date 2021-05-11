@@ -2,7 +2,7 @@
 node_modules/
 example-demo-app/
 package-lock.json
-src2/
+src/
 .eslintignore
 .eslintrc.json
 babel.config.json

@@ -47,7 +47,7 @@ Check out the [example codes](https://github.com/loput12ouj35/React-slide-rule/t
 
 ## Props
 
-Read [this doucment](https://github.com/loput12ouj35/React-slide-rule/tree/main/docs/props.md).
+Read [this document](https://github.com/loput12ouj35/React-slide-rule/tree/main/docs/props.md).
 
 > Hint: Use suggestion/auto complete to find the props in your code editor.
 

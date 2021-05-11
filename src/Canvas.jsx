@@ -98,7 +98,7 @@ export default class Canvas extends React.PureComponent {
         return onChange(Number(this.currentValue.toFixed(decimalPlace)));
       }
       this.currentValue += Math.sign(diff) * precision;
-      moveValue -= [64, 16, 4].find((n) => moveValue > n) ?? 1;
+      moveValue -= moveValue > 8 ? 2 : 1;
       this.drawCanvas();
       return window.requestAnimationFrame(draw);
     };

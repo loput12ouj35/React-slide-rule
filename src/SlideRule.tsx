@@ -3,7 +3,11 @@ import Canvas from './Canvas';
 import styles from './data/styles';
 import { SlideRuleProps } from './data/type';
 
-const DEFAULT_PROPS = {
+interface DefaultProps {
+  [direction: string]: SlideRuleProps;
+}
+
+const DEFAULT_PROPS: DefaultProps = {
   row: {
     width: 300,
     height: 55,

@@ -4,11 +4,11 @@ import SlideRule from 'react-slide-rule';
 const STYLES = {
   root: {
     display: 'flex',
-    flexDirection: 'column',
     alignItems: 'center',
-    position: 'relative',
+    justifyContent: 'center',
   },
-  title: { fontSize: '1rem', margin: 0 },
+  box: { width: '15rem' },
+  title: { fontSize: '1rem', margin: 0, color: '#999' },
   value: { fontSize: '2rem', fontWeight: 700 },
 };
 
@@ -17,8 +17,10 @@ export default React.memo(function () {
 
   return (
     <div style={STYLES.root}>
-      <p style={STYLES.title}>Zoom</p>
-      <p style={STYLES.value}>{value}x</p>
+      <div style={STYLES.box}>
+        <p style={STYLES.title}>Zoom</p>
+        <p style={STYLES.value}>{value}x</p>
+      </div>
       <SlideRule
         direction="column"
         value={value}

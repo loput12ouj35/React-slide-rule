@@ -6,7 +6,7 @@ const _drawVerticalLine = (ctx, coordinate, style) => {
   ctx.lineWidth = width;
   ctx.strokeStyle = color;
   ctx.moveTo(coordinate, top);
-  ctx.lineTo(coordinate, height);
+  ctx.lineTo(coordinate, top + height);
   ctx.stroke();
 };
 
@@ -16,7 +16,7 @@ const _drawLine = (ctx, coordinate, style) => {
   ctx.lineWidth = height;
   ctx.strokeStyle = color;
   ctx.moveTo(left, coordinate);
-  ctx.lineTo(width, coordinate);
+  ctx.lineTo(left + width, coordinate);
   ctx.stroke();
 };
 

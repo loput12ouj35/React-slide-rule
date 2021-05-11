@@ -8,7 +8,6 @@ const STYLES = {
     alignItems: 'center',
     position: 'relative',
   },
-  p: { textAlign: 'center' },
 };
 
 export default React.memo(function () {
@@ -16,7 +15,7 @@ export default React.memo(function () {
 
   return (
     <div style={STYLES.root}>
-      <p style={STYLES.p}>{value}</p>
+      <p>{value}</p>
       <SlideRule value={value} onChange={setValue} />
     </div>
   );

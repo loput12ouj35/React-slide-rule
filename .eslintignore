@@ -3,4 +3,5 @@
 node_modules/
 dist/
 example-demo-apps/dist/
+webpack.config.js
 docs/

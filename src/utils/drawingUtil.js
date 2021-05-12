@@ -34,13 +34,12 @@ const _applyNumberTextStyle = (ctx, textStyle) => {
   ctx.font = `${size} ${family}`;
 };
 
-const _calcNumberText = (i, precision) => {
-  const number = i * precision;
-  if (precision >= 0.1) return number;
-  const decimalPlace = util.countDecimalPlace(precision);
+const _round = (number, precision) =>
+  precision >= 0.1
+    ? number
+    : number.toFixed(util.countDecimalPlace(precision) - 1);
 
-  return number.toFixed(decimalPlace - 1);
-};
+const _calcNum = (i, precision) => _round(i * precision, precision);
 
 const drawCanvas = ({
   canvas,
@@ -49,26 +48,30 @@ const drawCanvas = ({
   minorStyle,
   textStyle,
   unit,
+  min,
+  max,
   from,
   to,
   calcMarkCoordinate,
   isXAxis,
-  isReverseAxis,
 }) => {
   const drawLine = isXAxis ? _drawVerticalLine : _drawLine;
   const drawText = isXAxis ? _drawTextFromTop : _drawTextFromLeft;
+  const lower = Math.round(min / precision); // use round() in case of decimal place
+  const upper = Math.round(max / precision);
   const ctx = canvas.getContext('2d');
 
   _applyNumberTextStyle(ctx, textStyle);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  for (let i = from; i <= to; i++) {
+  for (let i = from; i <= to; ++i) {
+    if (i < lower || i > upper) continue;
     const coordinate = calcMarkCoordinate(i);
 
     ctx.beginPath();
     if (i % 10 === 0) {
       drawLine(ctx, coordinate, majorStyle);
-      const text = _calcNumberText(i, precision) + unit;
+      const text = _calcNum(i, precision) + unit;
       drawText({ ctx, text, coordinate, textStyle });
     } else drawLine(ctx, coordinate, minorStyle);
 

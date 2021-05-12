@@ -38,29 +38,21 @@ const countDecimalPlace = (precision: number): number =>
   -Math.floor(Math.log10(precision));
 
 const calcFromTo = (options: {
-  min: number;
-  max: number;
   precision: number;
   gap: number;
   basis: number;
   value: number;
+  isReverseAxis: boolean;
 }): object => {
-  const { min, max, precision, gap, basis, value } = options;
+  const { precision, gap, basis, value, isReverseAxis } = options;
   const halfBasis = basis / 2;
-  const diffCurrentMin = ((value - min) * gap) / precision;
-  const _startValue = value - Math.floor(halfBasis / gap) * precision;
-  const startValue = Math.max(min, Math.min(_startValue, max));
-  const _endValue = startValue + (basis / gap) * precision;
-  const endValue = Math.min(_endValue, max);
-  const originPoint =
-    diffCurrentMin > halfBasis
-      ? halfBasis - ((value - startValue) * gap) / precision
-      : halfBasis - diffCurrentMin;
-
-  const from = Math.round(startValue / precision);
-  const to = Math.round(endValue / precision);
-  const calcMarkCoordinate = (i: number): number =>
-    originPoint + (i - from) * gap;
+  const startValue = value - Math.floor(halfBasis / gap) * precision;
+  const from = Math.round(startValue / precision); // use round() in case of decimal place
+  const to = from + basis / gap;
+  const marginLeft = halfBasis % gap;
+  const calcMarkCoordinate = isReverseAxis
+    ? (i: number): number => marginLeft + (to - i) * gap
+    : (i: number): number => marginLeft + (i - from) * gap;
 
   return { from, to, calcMarkCoordinate };
 };

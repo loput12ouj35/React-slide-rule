@@ -125,12 +125,11 @@ export default class Canvas extends React.PureComponent {
 
     if (!canvas) return;
     const { from, to, calcMarkCoordinate } = util.calcFromTo({
-      max,
-      min,
       precision,
       gap,
       basis,
       value: this.currentValue,
+      isReverseAxis: this.isReverseAxis,
     });
     const { majorStyle, minorStyle, textStyle, unit } = this.props;
 
@@ -141,11 +140,12 @@ export default class Canvas extends React.PureComponent {
       minorStyle,
       textStyle,
       unit,
+      min,
+      max,
       from,
       to,
       calcMarkCoordinate,
       isXAxis: this.isXAxis,
-      isReverseAxis: this.isReverseAxis,
     });
   }
 

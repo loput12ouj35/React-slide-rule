@@ -5,7 +5,7 @@
 
 A React component to get number input, shaped like a slide rule
 
-> Check out [more demos](https://loput12ouj35.github.io/React-slide-rule/)!
+> More demos available [here](https://loput12ouj35.github.io/React-slide-rule/)!
 
 ![examples](https://github.com/loput12ouj35/React-slide-rule/raw/main/docs/examples.gif)
 
@@ -47,7 +47,7 @@ Check out the [example codes](https://github.com/loput12ouj35/React-slide-rule/t
 
 ## Props
 
-Read [this document](https://github.com/loput12ouj35/React-slide-rule/tree/main/docs/props.md).
+A list of all props available [here](https://github.com/loput12ouj35/React-slide-rule/tree/main/docs/props.md).
 
 > Hint: Use suggestion/auto complete to find the props in your code editor.
 

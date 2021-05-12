@@ -1,44 +1,41 @@
 import React from 'react';
 import Canvas from './Canvas';
 import styles from './data/styles';
-import { SlideRuleProps } from './data/type';
+import { Axis, SlideRuleProps } from './data/type';
 
-interface DefaultProps {
-  [axis: string]: SlideRuleProps;
-}
-
-const DEFAULT_PROPS: DefaultProps = {
-  x: {
-    width: 300,
-    height: 55,
-    cursor: <div style={{ width: 4, height: 35, background: '#2AA' }} />,
-    majorStyle: { color: '#C4C4C4', width: 3, height: 30, top: 0 },
-    minorStyle: { color: '#E4E4E4', width: 2, height: 15, top: 0 },
-    textStyle: {
-      size: '1.25em',
-      family: 'Arial',
-      color: 'rgba(0, 0, 0, 0.87)',
-      top: 36,
-      textAlign: 'center',
-      textBaseline: 'top',
-    },
-  },
-  y: {
-    width: 75,
-    height: 300,
-    cursor: <div style={{ width: 35, height: 4, backgroundColor: '#2AA' }} />,
-    majorStyle: { color: '#C4C4C4', width: 30, height: 3, left: 0 },
-    minorStyle: { color: '#E4E4E4', width: 15, height: 2, left: 0 },
-    textStyle: {
-      size: '1.25em',
-      family: 'Arial',
-      color: 'rgba(0, 0, 0, 0.87)',
-      left: 36,
-      textAlign: 'left',
-      textBaseline: 'middle',
-    },
+const DEFAULT_X_AXIS_PROPS: SlideRuleProps = {
+  width: 300,
+  height: 55,
+  cursor: <div style={{ width: 4, height: 35, background: '#2AA' }} />,
+  majorStyle: { color: '#C4C4C4', width: 3, height: 30, top: 0 },
+  minorStyle: { color: '#E4E4E4', width: 2, height: 15, top: 0 },
+  textStyle: {
+    size: '1.25em',
+    family: 'Arial',
+    color: 'rgba(0, 0, 0, 0.87)',
+    top: 36,
+    textAlign: 'center',
+    textBaseline: 'top',
   },
 };
+
+const DEFAULT_Y_AXIS_PROPS: SlideRuleProps = {
+  width: 75,
+  height: 300,
+  cursor: <div style={{ width: 35, height: 4, backgroundColor: '#2AA' }} />,
+  majorStyle: { color: '#C4C4C4', width: 30, height: 3, left: 0 },
+  minorStyle: { color: '#E4E4E4', width: 15, height: 2, left: 0 },
+  textStyle: {
+    size: '1.25em',
+    family: 'Arial',
+    color: 'rgba(0, 0, 0, 0.87)',
+    left: 36,
+    textAlign: 'left',
+    textBaseline: 'middle',
+  },
+};
+
+const _isXAxis = (axis: Axis): boolean => axis === 'x' || axis === 'x-reverse';
 
 export default React.forwardRef(function SlideRule(
   props: SlideRuleProps,
@@ -61,9 +58,9 @@ export default React.forwardRef(function SlideRule(
     ...rest
   } = props;
 
-  if (!showWarning) validate({ value, min, max, precision });
+  if (showWarning) validate({ value, min, max, precision });
 
-  const def = DEFAULT_PROPS[axis];
+  const def = _isXAxis(axis) ? DEFAULT_X_AXIS_PROPS : DEFAULT_Y_AXIS_PROPS;
   const { width = def.width, height = def.height, cursor = def.cursor } = rest;
   const enhancedMajorStyle = { ...def.majorStyle, ...majorStyle };
   const enhancedMinorStyle = { ...def.minorStyle, ...minorStyle };
@@ -86,7 +83,7 @@ export default React.forwardRef(function SlideRule(
         height={height}
         unit={unit}
       />
-      <div style={styles.createCenterStyle(axis)}>{cursor}</div>
+      <div style={styles.createCenterStyle(_isXAxis(axis))}>{cursor}</div>
     </div>
   );
 });

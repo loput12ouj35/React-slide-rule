@@ -34,18 +34,8 @@ const adjustValue = (options: {
   return Math.round(clampedValue / precision) * precision;
 };
 
-const calcNumberOfDecimalPlace = (precision: number): number =>
+const countDecimalPlace = (precision: number): number =>
   -Math.floor(Math.log10(precision));
-
-const getBasis = (axis: Axis, width: number, height: number): number => {
-  switch (axis) {
-    case 'y':
-    case 'y-reverse':
-      return height;
-    default:
-      return width;
-  }
-};
 
 const calcFromTo = (options: {
   min: number;
@@ -69,10 +59,10 @@ const calcFromTo = (options: {
 
   const from = Math.round(startValue / precision);
   const to = Math.round(endValue / precision);
-  const calcGradationCoordinate = (i: number): number =>
+  const calcMarkCoordinate = (i: number): number =>
     originPoint + (i - from) * gap;
 
-  return { from, to, calcGradationCoordinate };
+  return { from, to, calcMarkCoordinate };
 };
 
 export default {
@@ -80,7 +70,6 @@ export default {
   calcReboundTranslate,
   calcInertialShfitInPx,
   adjustValue,
-  calcNumberOfDecimalPlace,
-  getBasis,
+  countDecimalPlace,
   calcFromTo,
 };

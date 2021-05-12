@@ -1,6 +1,6 @@
 {
   "name": "react-slide-rule",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A React component to get number input, shaped like a slide rule",
   "main": "dist/index.js",
   "keywords": [

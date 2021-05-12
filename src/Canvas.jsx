@@ -81,7 +81,14 @@ export default class Canvas extends React.PureComponent {
   rebound(delta) {
     const { max, min } = this.props;
 
-    if (!util.isOverBoundary({ max, min, delta, value: this.currentValue }))
+    if (
+      !util.isOverBoundary({
+        max,
+        min,
+        delta: this.isReverseAxis ? -delta : delta,
+        value: this.currentValue,
+      })
+    )
       return false;
 
     const translate = util.calcReboundTranslate(delta);
@@ -90,9 +97,9 @@ export default class Canvas extends React.PureComponent {
   }
 
   moveGradations(delta) {
-    const direction = this.isReverseAxis ? -1 : 1;
+    const diffInPx = this.isReverseAxis ? delta : -delta;
     const { gap, precision, onChange } = this.props;
-    const diff = Math.round(-delta / gap) * direction;
+    const diff = Math.round(diffInPx / gap);
     const increment = Math.sign(diff) * precision; // value increment
     let speed = Math.abs(diff); // for sliding
 

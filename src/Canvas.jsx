@@ -27,17 +27,19 @@ export default class Canvas extends React.PureComponent {
     this.drawCanvas();
   }
 
+  get isXAxis() {
+    const { axis } = this.props;
+    return axis === 'x' || axis === 'x-reverse';
+  }
+
+  get isReverseAxis() {
+    const { axis } = this.props;
+    return axis === 'x-reverse' || axis === 'y-reverse';
+  }
+
   getCoordinate = (e) => {
     const { pageX, pageY } = e.touches?.[0] ?? e;
-    const { axis } = this.props;
-
-    switch (axis) {
-      case 'y':
-      case 'y-reverse':
-        return pageY;
-      default:
-        return pageX;
-    }
+    return this.isXAxis ? pageX : pageY;
   };
 
   handleTouchStart = (e) => {
@@ -88,18 +90,20 @@ export default class Canvas extends React.PureComponent {
   }
 
   moveGradations(delta) {
+    const direction = this.isReverseAxis ? -1 : 1;
     const { gap, precision, onChange } = this.props;
-    const diff = Math.round(-delta / gap);
-    let moveValue = Math.abs(diff);
+    const diff = Math.round(-delta / gap) * direction;
+    const increment = Math.sign(diff) * precision; // value increment
+    let speed = Math.abs(diff); // for sliding
 
     const draw = () => {
-      if (moveValue < 1) {
+      if (speed < 1) {
         if (precision >= 1) return onChange(this.currentValue);
-        const decimalPlace = util.calcNumberOfDecimalPlace(precision);
+        const decimalPlace = util.countDecimalPlace(precision);
         return onChange(Number(this.currentValue.toFixed(decimalPlace)));
       }
-      this.currentValue += Math.sign(diff) * precision;
-      moveValue -= moveValue > 8 ? 2 : 1;
+      this.currentValue += increment;
+      speed -= speed > 8 ? 2 : 1;
       this.drawCanvas();
       return window.requestAnimationFrame(draw);
     };
@@ -116,11 +120,11 @@ export default class Canvas extends React.PureComponent {
       value: this.currentValue,
     });
     const canvas = this.canvasRef.current;
-    const { axis, width, height } = this.props;
-    const basis = util.getBasis(axis, width, height);
+    const { width, height } = this.props;
+    const basis = this.isXAxis ? width : height;
 
     if (!canvas) return;
-    const { from, to, calcGradationCoordinate } = util.calcFromTo({
+    const { from, to, calcMarkCoordinate } = util.calcFromTo({
       max,
       min,
       precision,
@@ -139,13 +143,14 @@ export default class Canvas extends React.PureComponent {
       unit,
       from,
       to,
-      calcGradationCoordinate,
-      axis,
+      calcMarkCoordinate,
+      isXAxis: this.isXAxis,
+      isReverseAxis: this.isReverseAxis,
     });
   }
 
   render() {
-    const { width, height, value = null, axis } = this.props;
+    const { width, height, value = null } = this.props;
     const { translate } = this.state;
     if (value !== null) this.currentValue = value;
 
@@ -155,7 +160,7 @@ export default class Canvas extends React.PureComponent {
           ref={this.canvasRef}
           width={width}
           height={height}
-          style={styles.createCanvasStyle(axis, translate)}
+          style={styles.createCanvasStyle(translate, this.isXAxis)}
           onTouchStart={this.handleTouchStart}
           onMouseDown={this.handleTouchStart}
           onTouchMove={this.handleTouchMove}

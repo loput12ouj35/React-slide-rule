@@ -26,16 +26,6 @@ const _drawTextFromTop = ({ ctx, text, coordinate, textStyle: { top } }) =>
 const _drawTextFromLeft = ({ ctx, text, coordinate, textStyle: { left } }) =>
   ctx.fillText(text, left, coordinate);
 
-const _getDrawFns = (axis) => {
-  switch (axis) {
-    case 'y':
-    case 'y-reverse':
-      return [_drawLine, _drawTextFromLeft];
-    default:
-      return [_drawVerticalLine, _drawTextFromTop];
-  }
-};
-
 const _applyNumberTextStyle = (ctx, textStyle) => {
   const { size, family, color, textAlign, textBaseline } = textStyle;
   ctx.fillStyle = color;
@@ -47,7 +37,7 @@ const _applyNumberTextStyle = (ctx, textStyle) => {
 const _calcNumberText = (i, precision) => {
   const number = i * precision;
   if (precision >= 0.1) return number;
-  const decimalPlace = util.calcNumberOfDecimalPlace(precision);
+  const decimalPlace = util.countDecimalPlace(precision);
 
   return number.toFixed(decimalPlace - 1);
 };
@@ -61,17 +51,19 @@ const drawCanvas = ({
   unit,
   from,
   to,
-  calcGradationCoordinate,
-  axis,
+  calcMarkCoordinate,
+  isXAxis,
+  isReverseAxis,
 }) => {
+  const drawLine = isXAxis ? _drawVerticalLine : _drawLine;
+  const drawText = isXAxis ? _drawTextFromTop : _drawTextFromLeft;
   const ctx = canvas.getContext('2d');
-  const [drawLine, drawText] = _getDrawFns(axis);
 
   _applyNumberTextStyle(ctx, textStyle);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   for (let i = from; i <= to; i++) {
-    const coordinate = calcGradationCoordinate(i);
+    const coordinate = calcMarkCoordinate(i);
 
     ctx.beginPath();
     if (i % 10 === 0) {

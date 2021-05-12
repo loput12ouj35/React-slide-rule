@@ -37,6 +37,7 @@ module.exports = [
       open: true,
       liveReload: true,
       host: '0.0.0.0',
+      openPage: 'http://localhost:3000',
     },
     ...base,
   },

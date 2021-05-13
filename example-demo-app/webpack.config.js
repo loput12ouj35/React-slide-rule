@@ -1,9 +1,10 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
 const path = require('path');
 
 const base = {
-  entry: ['@babel/polyfill', './src/index.jsx'],
+  entry: ['@babel/polyfill', './src/index.jsx', './src/sass/index.scss'],
   resolve: {
     modules: ['node_modules', 'src'],
     extensions: ['.js', '.jsx'],
@@ -15,6 +16,11 @@ const base = {
         use: ['babel-loader', 'eslint-loader'],
         exclude: /node_modules/,
       },
+      {
+        test: /\.scss$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+        exclude: /node_modules/,
+      },
     ],
   },
   output: {
@@ -23,6 +29,7 @@ const base = {
   },
   plugins: [
     new HtmlWebpackPlugin({ template: './src/index.html' }),
+    new MiniCssExtractPlugin({ filename: './src/css/style.css' }),
     new webpack.HotModuleReplacementPlugin(),
   ],
 };

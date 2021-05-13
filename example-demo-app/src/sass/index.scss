@@ -1,0 +1,11 @@
+@import 'app.scss';
+
+div#root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+main {
+  max-width: 50rem;
+}

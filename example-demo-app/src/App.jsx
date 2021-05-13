@@ -14,7 +14,7 @@ export default React.memo(function App() {
   return (
     <main>
       <h1>Live demo</h1>
-      <ol>
+      <ol className="example-list">
         <li>
           <h3>Basic example</h3>
           <BasicExample />
@@ -32,7 +32,7 @@ export default React.memo(function App() {
           <CustomStylesExample />
         </li>
         <li>
-          <h3>Custom cursor &amp; Text over marks</h3>
+          <h3>Custom cursor &amp; Numbers above marks</h3>
           <CustomCursorExample />
         </li>
         <li>

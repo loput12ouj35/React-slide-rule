@@ -7,9 +7,9 @@ const DEFAULT_X_AXIS_PROPS: SlideRuleProps = {
   width: 300,
   height: 55,
   cursor: <div style={{ width: 4, height: 35, background: '#2AA' }} />,
-  majorStyle: { color: '#C4C4C4', width: 3, height: 30, top: 0 },
-  minorStyle: { color: '#E4E4E4', width: 2, height: 15, top: 0 },
-  textStyle: {
+  markStyle: { color: '#C4C4C4', width: 3, height: 30, top: 0 },
+  smallerMarkStyle: { color: '#E4E4E4', width: 2, height: 15, top: 0 },
+  numberStyle: {
     size: '1.25em',
     family: 'Arial',
     color: 'rgba(0, 0, 0, 0.87)',
@@ -23,9 +23,9 @@ const DEFAULT_Y_AXIS_PROPS: SlideRuleProps = {
   width: 75,
   height: 300,
   cursor: <div style={{ width: 35, height: 4, backgroundColor: '#2AA' }} />,
-  majorStyle: { color: '#C4C4C4', width: 30, height: 3, left: 0 },
-  minorStyle: { color: '#E4E4E4', width: 15, height: 2, left: 0 },
-  textStyle: {
+  markStyle: { color: '#C4C4C4', width: 30, height: 3, left: 0 },
+  smallerMarkStyle: { color: '#E4E4E4', width: 15, height: 2, left: 0 },
+  numberStyle: {
     size: '1.25em',
     family: 'Arial',
     color: 'rgba(0, 0, 0, 0.87)',
@@ -44,41 +44,44 @@ export default React.forwardRef(function SlideRule(
   const {
     onChange = (v: number) => v,
     gap = 10,
-    precision = 1,
+    step = 1,
     max = 300,
     min = 0,
     value = 150,
     axis = 'x',
-    majorStyle = {},
-    minorStyle = {},
-    textStyle = {},
+    markStyle = {},
+    smallerMarkStyle = {},
+    numberStyle = {},
     unit = '',
     style,
     showWarning = false,
     ...rest
   } = props;
 
-  if (showWarning) validate({ value, min, max, precision });
+  if (showWarning) validate({ value, min, max, step });
 
   const def = _isXAxis(axis) ? DEFAULT_X_AXIS_PROPS : DEFAULT_Y_AXIS_PROPS;
   const { width = def.width, height = def.height, cursor = def.cursor } = rest;
-  const enhancedMajorStyle = { ...def.majorStyle, ...majorStyle };
-  const enhancedMinorStyle = { ...def.minorStyle, ...minorStyle };
-  const enhancedTextStyle = { ...def.textStyle, ...textStyle };
+  const enhancedMarkStyle = { ...def.markStyle, ...markStyle };
+  const enhancedSmallerMarkStyle = {
+    ...def.smallerMarkStyle,
+    ...smallerMarkStyle,
+  };
+  const enhancedNumberStyle = { ...def.numberStyle, ...numberStyle };
 
   return (
     <div ref={ref} style={styles.createRootStyle(style)}>
       <Canvas
         onChange={onChange}
         gap={gap}
-        precision={precision}
+        step={step}
         max={max}
         min={min}
         value={Number(value)}
         axis={axis}
-        majorStyle={enhancedMajorStyle}
-        minorStyle={enhancedMinorStyle}
-        textStyle={enhancedTextStyle}
+        markStyle={enhancedMarkStyle}
+        smallerMarkStyle={enhancedSmallerMarkStyle}
+        numberStyle={enhancedNumberStyle}
         width={width}
         height={height}
         unit={unit}
@@ -92,14 +95,14 @@ function validate(options: {
   value: number;
   min: number;
   max: number;
-  precision: number;
+  step: number;
 }) {
-  const { value, min, max, precision } = options;
+  const { value, min, max, step } = options;
   if (typeof value !== 'number') console.warn('value prop should be number!');
-  if (!Number.isInteger(min / precision))
-    console.warn('min prop should be a multiple of precision prop');
-  if (!Number.isInteger(max / precision))
-    console.warn('max prop should be a multiple of precision prop');
-  if (!Number.isInteger(value / precision))
-    console.warn('value prop should be a multiple of precision prop');
+  if (!Number.isInteger(min / step))
+    console.warn('min prop should be a multiple of the step prop');
+  if (!Number.isInteger(max / step))
+    console.warn('max prop should be a multiple of the step prop');
+  if (!Number.isInteger(value / step))
+    console.warn('value prop should be a multiple of the step prop');
 }

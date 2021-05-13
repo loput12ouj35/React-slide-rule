@@ -20,33 +20,35 @@ const _drawLine = (ctx, coordinate, style) => {
   ctx.stroke();
 };
 
-const _drawTextFromTop = ({ ctx, text, coordinate, textStyle: { top } }) =>
+const _drawNumberFromTop = ({ ctx, text, coordinate, numberStyle: { top } }) =>
   ctx.fillText(text, coordinate, top);
 
-const _drawTextFromLeft = ({ ctx, text, coordinate, textStyle: { left } }) =>
-  ctx.fillText(text, left, coordinate);
+const _drawNumberFromLeft = ({
+  ctx,
+  text,
+  coordinate,
+  numberStyle: { left },
+}) => ctx.fillText(text, left, coordinate);
 
-const _applyNumberTextStyle = (ctx, textStyle) => {
-  const { size, family, color, textAlign, textBaseline } = textStyle;
+const _applyNumberNumberStyle = (ctx, numberStyle) => {
+  const { size, family, color, textAlign, textBaseline } = numberStyle;
   ctx.fillStyle = color;
   ctx.textAlign = textAlign;
   ctx.textBaseline = textBaseline;
   ctx.font = `${size} ${family}`;
 };
 
-const _round = (number, precision) =>
-  precision >= 0.1
-    ? number
-    : number.toFixed(util.countDecimalPlace(precision) - 1);
+const _round = (number, step) =>
+  step >= 0.1 ? number : number.toFixed(util.countDecimalPlace(step) - 1);
 
-const _calcNum = (i, precision) => _round(i * precision, precision);
+const _calcNum = (i, step) => _round(i * step, step);
 
 const drawCanvas = ({
   canvas,
-  precision,
-  majorStyle,
-  minorStyle,
-  textStyle,
+  step,
+  markStyle,
+  smallerMarkStyle,
+  numberStyle,
   unit,
   min,
   max,
@@ -56,12 +58,12 @@ const drawCanvas = ({
   isXAxis,
 }) => {
   const drawLine = isXAxis ? _drawVerticalLine : _drawLine;
-  const drawText = isXAxis ? _drawTextFromTop : _drawTextFromLeft;
-  const lower = Math.round(min / precision); // use round() in case of decimal place
-  const upper = Math.round(max / precision);
+  const drawNumber = isXAxis ? _drawNumberFromTop : _drawNumberFromLeft;
+  const lower = Math.round(min / step); // use round() in case of decimal place
+  const upper = Math.round(max / step);
   const ctx = canvas.getContext('2d');
 
-  _applyNumberTextStyle(ctx, textStyle);
+  _applyNumberNumberStyle(ctx, numberStyle);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   for (let i = from; i <= to; ++i) {
@@ -70,10 +72,10 @@ const drawCanvas = ({
 
     ctx.beginPath();
     if (i % 10 === 0) {
-      drawLine(ctx, coordinate, majorStyle);
-      const text = _calcNum(i, precision) + unit;
-      drawText({ ctx, text, coordinate, textStyle });
-    } else drawLine(ctx, coordinate, minorStyle);
+      drawLine(ctx, coordinate, markStyle);
+      const text = _calcNum(i, step) + unit;
+      drawNumber({ ctx, text, coordinate, numberStyle });
+    } else drawLine(ctx, coordinate, smallerMarkStyle);
 
     ctx.closePath();
   }

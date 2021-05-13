@@ -9,24 +9,24 @@ export interface TouchPoint {
 export type Axis = 'x' | 'y' | 'x-reverse' | 'y-reverse';
 
 export interface SlideRuleProps {
-  onChange?: (v: number) => any;
+  onChange?: (v: number) => void;
   width?: number;
   height?: number;
-  majorStyle?: {
+  markStyle?: {
     color?: Property.BackgroundColor;
     width?: number;
     height?: number;
     top?: number;
     left?: number;
   };
-  minorStyle?: {
+  smallerMarkStyle?: {
     color?: Property.BackgroundColor;
     width?: number;
     height?: number;
     top?: number;
     left?: number;
   };
-  textStyle?: {
+  numberStyle?: {
     size?: Property.FontSize;
     family?: Property.FontFamily;
     color?: Property.Color;
@@ -43,7 +43,7 @@ export interface SlideRuleProps {
   };
   unit?: string;
   gap?: number;
-  precision?: number;
+  step?: number;
   max?: number;
   min?: number;
   value?: number;

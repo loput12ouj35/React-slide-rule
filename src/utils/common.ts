@@ -26,28 +26,28 @@ const calcInertialShfitInPx = (touchPoints: Array<TouchPoint>): number => {
 const adjustValue = (options: {
   min: number;
   max: number;
-  precision: number;
+  step: number;
   value: number;
 }): number => {
-  const { min, max, precision, value } = options;
+  const { min, max, step, value } = options;
   const clampedValue = Math.max(min, Math.min(value, max));
-  return Math.round(clampedValue / precision) * precision;
+  return Math.round(clampedValue / step) * step;
 };
 
-const countDecimalPlace = (precision: number): number =>
-  -Math.floor(Math.log10(precision));
+const countDecimalPlace = (step: number): number =>
+  -Math.floor(Math.log10(step));
 
 const calcFromTo = (options: {
-  precision: number;
+  step: number;
   gap: number;
   basis: number;
   value: number;
   isReverseAxis: boolean;
 }): object => {
-  const { precision, gap, basis, value, isReverseAxis } = options;
+  const { step, gap, basis, value, isReverseAxis } = options;
   const halfBasis = basis / 2;
-  const startValue = value - Math.floor(halfBasis / gap) * precision;
-  const from = Math.round(startValue / precision); // use round() in case of decimal place
+  const startValue = value - Math.floor(halfBasis / gap) * step;
+  const from = Math.round(startValue / step); // use round() in case of decimal place
   const to = from + basis / gap;
   const marginLeft = halfBasis % gap;
   const calcMarkCoordinate = isReverseAxis

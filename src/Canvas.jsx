@@ -98,15 +98,15 @@ export default class Canvas extends React.PureComponent {
 
   moveGradations(delta) {
     const diffInPx = this.isReverseAxis ? delta : -delta;
-    const { gap, precision, onChange } = this.props;
+    const { gap, step, onChange } = this.props;
     const diff = Math.round(diffInPx / gap);
-    const increment = Math.sign(diff) * precision; // value increment
+    const increment = Math.sign(diff) * step; // value increment
     let speed = Math.abs(diff); // for sliding
 
     const draw = () => {
       if (speed < 1) {
-        if (precision >= 1) return onChange(this.currentValue);
-        const decimalPlace = util.countDecimalPlace(precision);
+        if (step >= 1) return onChange(this.currentValue);
+        const decimalPlace = util.countDecimalPlace(step);
         return onChange(Number(this.currentValue.toFixed(decimalPlace)));
       }
       this.currentValue += increment;
@@ -119,11 +119,11 @@ export default class Canvas extends React.PureComponent {
   }
 
   drawCanvas() {
-    const { min, max, precision, gap } = this.props;
+    const { min, max, step, gap } = this.props;
     this.currentValue = util.adjustValue({
       max,
       min,
-      precision,
+      step,
       value: this.currentValue,
     });
     const canvas = this.canvasRef.current;
@@ -132,20 +132,20 @@ export default class Canvas extends React.PureComponent {
 
     if (!canvas) return;
     const { from, to, calcMarkCoordinate } = util.calcFromTo({
-      precision,
+      step,
       gap,
       basis,
       value: this.currentValue,
       isReverseAxis: this.isReverseAxis,
     });
-    const { majorStyle, minorStyle, textStyle, unit } = this.props;
+    const { markStyle, smallerMarkStyle, numberStyle, unit } = this.props;
 
     drawingUtil.drawCanvas({
       canvas,
-      precision,
-      majorStyle,
-      minorStyle,
-      textStyle,
+      step,
+      markStyle,
+      smallerMarkStyle,
+      numberStyle,
       unit,
       min,
       max,

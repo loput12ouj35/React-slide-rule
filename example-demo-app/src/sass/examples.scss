@@ -1,0 +1,87 @@
+.example-input-element {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+
+  >p {
+    font-size: 1rem;
+    color: #999;
+  }
+
+  .arrow {
+    background-color: black;
+    width: 0.75rem;
+    height: 0.75rem;
+    position: absolute;
+    top: 6rem;
+    transform: rotate(45deg);
+  }
+
+  >input {
+    z-index: 1;
+    width: 7rem;
+    height: 3rem;
+    background-color: black;
+    border-radius: 0.25rem;
+    color: white;
+    text-align: center;
+    border: 0;
+    outline: 0;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 4px 20px 0px;
+  }
+}
+
+.example-custom-cursor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .custom-cursor {
+    background-color: crimson;
+    width: 0.75rem;
+    height: 0.75rem;
+    transform: rotate(45deg);
+    margin-top: 3rem;
+  }
+}
+
+.example-resize-observer {
+  overflow: hidden;
+  resize: horizontal;
+}
+
+.example-vertical {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .box {
+    width: 15rem;
+
+    >p:first-child {
+      font-size: 1rem;
+      margin: 0;
+      color: #999;
+    }
+
+    >p:last-child {
+      font-size: 2rem;
+      font-weight: bold;
+    }
+  }
+}
+
+.example-custom-styled {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: black;
+  padding: 2px;
+
+  >p {
+    color: wheat;
+  }
+}

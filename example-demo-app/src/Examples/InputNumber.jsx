@@ -1,38 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import SlideRule from 'react-slide-rule';
 
-const [min, max, precision] = [0, 300, 0.1];
-const STYLES = {
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    position: 'relative',
-  },
-  arrow: {
-    backgroundColor: 'black',
-    width: '0.75rem',
-    height: '0.75rem',
-    position: 'absolute',
-    top: '6rem',
-    transform: 'rotate(45deg)',
-  },
-  title: { fontSize: '1rem', color: '#999' },
-  input: {
-    zIndex: 1,
-    width: '7rem',
-    height: '3rem',
-    backgroundColor: 'black',
-    borderRadius: '0.25rem',
-    color: 'white',
-    textAlign: 'center',
-    border: 0,
-    outline: 0,
-    fontSize: '2rem',
-    marginBottom: '0.5rem',
-    boxShadow: 'rgba(0,0,0,0.12) 0px 4px 20px 0px, rgba',
-  },
-};
+const [min, max, step] = [0, 300, 0.1];
 
 export default React.memo(function () {
   const [value, setValue] = useState(70.3);
@@ -43,15 +12,14 @@ export default React.memo(function () {
   );
 
   return (
-    <div style={STYLES.root}>
-      <p style={STYLES.title}>Weight (kg)</p>
-      <div style={STYLES.arrow} />
+    <div className="example-input-element">
+      <p>Weight (kg)</p>
+      <div className="arrow" />
       <input
-        style={STYLES.input}
         value={value}
         onChange={handleChange}
         onBlur={handleBlur}
-        step={precision}
+        step={step}
         min={min}
         max={max}
         type="number"
@@ -61,7 +29,7 @@ export default React.memo(function () {
         onChange={setValue}
         min={min}
         max={max}
-        precision={precision}
+        step={step}
         width={500}
       />
     </div>

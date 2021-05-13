@@ -15,7 +15,7 @@ export default React.memo(function () {
   }, []);
 
   return window.ResizeObserver ? (
-    <div ref={root}>
+    <div ref={root} className="example-resize-observer">
       <SlideRule value={value} onChange={setValue} width={width} />
     </div>
   ) : (

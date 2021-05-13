@@ -6,7 +6,7 @@ import { Axis, MarkStyle, NumberStyle, SlideRuleProps } from './data/type';
 const DEFAULT_X_AXIS_PROPS: SlideRuleProps = {
   width: 300,
   height: 55,
-  cursor: <div style={{ width: 4, height: 35, background: '#2AA' }} />,
+  cursor: <div style={{ width: 4, height: 35, backgroundColor: '#2AA' }} />,
   markStyle: { color: '#C4C4C4', width: 3, height: 30, top: 0 },
   smallerMarkStyle: { color: '#E4E4E4', width: 2, height: 15, top: 0 },
   numberStyle: {

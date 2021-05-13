@@ -29,7 +29,7 @@ const base = {
   },
   plugins: [
     new HtmlWebpackPlugin({ template: './src/index.html' }),
-    new MiniCssExtractPlugin({ filename: './src/css/style.css' }),
+    new MiniCssExtractPlugin({ filename: 'style.css' }),
     new webpack.HotModuleReplacementPlugin(),
   ],
 };

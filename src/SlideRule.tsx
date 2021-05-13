@@ -1,7 +1,7 @@
 import React from 'react';
 import Canvas from './Canvas';
 import styles from './data/styles';
-import { Axis, SlideRuleProps } from './data/type';
+import { Axis, MarkStyle, NumberStyle, SlideRuleProps } from './data/type';
 
 const DEFAULT_X_AXIS_PROPS: SlideRuleProps = {
   width: 300,
@@ -36,6 +36,16 @@ const DEFAULT_Y_AXIS_PROPS: SlideRuleProps = {
 };
 
 const _isXAxis = (axis: Axis): boolean => axis === 'x' || axis === 'x-reverse';
+const _getOrMerge = (
+  source: MarkStyle | NumberStyle = {},
+  target?: MarkStyle | NumberStyle
+): MarkStyle | NumberStyle => {
+  try {
+    return target ? { ...source, ...target } : source;
+  } catch (e) {
+    return source;
+  }
+};
 
 export default React.forwardRef(function SlideRule(
   props: SlideRuleProps,
@@ -49,9 +59,9 @@ export default React.forwardRef(function SlideRule(
     min = 0,
     value = 150,
     axis = 'x',
-    markStyle = {},
-    smallerMarkStyle = {},
-    numberStyle = {},
+    markStyle,
+    smallerMarkStyle,
+    numberStyle,
     unit = '',
     style,
     showWarning = false,
@@ -62,12 +72,6 @@ export default React.forwardRef(function SlideRule(
 
   const def = _isXAxis(axis) ? DEFAULT_X_AXIS_PROPS : DEFAULT_Y_AXIS_PROPS;
   const { width = def.width, height = def.height, cursor = def.cursor } = rest;
-  const enhancedMarkStyle = { ...def.markStyle, ...markStyle };
-  const enhancedSmallerMarkStyle = {
-    ...def.smallerMarkStyle,
-    ...smallerMarkStyle,
-  };
-  const enhancedNumberStyle = { ...def.numberStyle, ...numberStyle };
 
   return (
     <div ref={ref} style={styles.createRootStyle(style)}>
@@ -79,9 +83,9 @@ export default React.forwardRef(function SlideRule(
         min={min}
         value={Number(value)}
         axis={axis}
-        markStyle={enhancedMarkStyle}
-        smallerMarkStyle={enhancedSmallerMarkStyle}
-        numberStyle={enhancedNumberStyle}
+        markStyle={_getOrMerge(def.markStyle, markStyle)}
+        smallerMarkStyle={_getOrMerge(def.smallerMarkStyle, smallerMarkStyle)}
+        numberStyle={_getOrMerge(def.numberStyle, numberStyle)}
         width={width}
         height={height}
         unit={unit}

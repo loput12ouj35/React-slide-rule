@@ -36,8 +36,13 @@ const createCanvasStyle = (
     ? { ...CANVAS_STYLE, transform: `translateX(${translate}px)` }
     : { ...CANVAS_STYLE, transform: `translateY(${translate}px)` };
 
-const createRootStyle = (style?: React.CSSProperties): React.CSSProperties =>
-  style ? { ...ROOT_STYLE, ...style } : ROOT_STYLE;
+const createRootStyle = (style?: React.CSSProperties): React.CSSProperties => {
+  try {
+    return style ? { ...ROOT_STYLE, ...style } : ROOT_STYLE;
+  } catch (e) {
+    return ROOT_STYLE;
+  }
+};
 
 const createCenterStyle = (isXAxis: boolean): React.CSSProperties =>
   isXAxis ? CENTER_STYLE : CENTER_COLUMN_STYLE;

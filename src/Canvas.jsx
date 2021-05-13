@@ -27,6 +27,10 @@ export default class Canvas extends React.PureComponent {
     this.drawCanvas();
   }
 
+  componentDidCatch(error, errorInfo) {
+    console.error(error, errorInfo);
+  }
+
   get isXAxis() {
     const { axis } = this.props;
     return axis === 'x' || axis === 'x-reverse';

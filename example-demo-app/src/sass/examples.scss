@@ -1,7 +1,13 @@
-.example-input-element {
+.example-basic {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 1.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 0.25rem;
+}
+
+.example-input-element {
   position: relative;
 
   >p {
@@ -35,10 +41,6 @@
 }
 
 .example-custom-cursor {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
   .custom-cursor {
     background-color: crimson;
     width: 0.75rem;
@@ -54,12 +56,12 @@
 }
 
 .example-vertical {
-  display: flex;
-  align-items: center;
+  flex-direction: row;
   justify-content: center;
 
   .box {
-    width: 15rem;
+    width: 5rem;
+    margin: 0 5rem;
 
     >p:first-child {
       font-size: 1rem;
@@ -75,9 +77,6 @@
 }
 
 .example-custom-styled {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   background-color: black;
   padding: 2px;
 

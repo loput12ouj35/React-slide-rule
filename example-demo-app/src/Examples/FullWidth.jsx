@@ -7,7 +7,7 @@ export default React.memo(function () {
   const width = ref?.offsetWidth;
 
   return (
-    <div ref={(node) => setRef(node)}>
+    <div ref={(node) => setRef(node)} className="example-basic">
       <SlideRule value={value} onChange={setValue} width={width} />
     </div>
   );

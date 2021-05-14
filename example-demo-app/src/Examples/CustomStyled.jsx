@@ -5,7 +5,7 @@ export default React.memo(function () {
   const [value, setValue] = useState(150);
 
   return (
-    <div className="example-custom-styled">
+    <div className="example-basic example-custom-styled">
       <SlideRule
         value={value}
         onChange={setValue}

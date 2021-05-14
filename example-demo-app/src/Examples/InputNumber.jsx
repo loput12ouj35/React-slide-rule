@@ -12,7 +12,7 @@ export default React.memo(function () {
   );
 
   return (
-    <div className="example-input-element">
+    <div className="example-basic example-input-element">
       <p>Weight (kg)</p>
       <div className="arrow" />
       <input

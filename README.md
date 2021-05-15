@@ -3,7 +3,7 @@
 [![npm](https://img.shields.io/npm/v/react-slide-rule.svg)](https://www.npmjs.com/package/react-slide-rule)
 [![npm](https://img.shields.io/npm/l/react-slide-rule.svg)](https://www.npmjs.com/package/react-slide-rule)
 
-A React component to get number input, shaped like a ruler / slide rule
+React-slide-rule is a React component shaped like a ruler/slide rule, allowing users to select a value along a subjective range and step.
 
 > More demos available [here](https://loput12ouj35.github.io/React-slide-rule/)!
 

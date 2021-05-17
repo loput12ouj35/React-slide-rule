@@ -3,7 +3,7 @@ export default {
     ' allows users to select a value along a subjectvie range and step.\nThis application lists demos of the component.',
   basic: {
     subheader:
-      "Let's get started with a simple example that has a value and callback that updates the value.",
+      "Let's get started with a simple example provided with a value and callback to update the value.",
   },
   'input-element': {
     title: 'Slide rule with an input element',
@@ -12,12 +12,12 @@ export default {
   vertical: {
     title: 'Vertical slide rules & unit',
     subheader:
-      'You can use vertical slide rules by setting the "axis" to "y" or "y-reverse".\nThe text provided with the "unit" is attached to each number.',
+      'You can use vertical slide rules by setting the "axis" prop to "y" or "y-reverse".\nThe text of the "unit" prop is attached to each number.',
   },
   'custom-styled': {
     title: 'Custom styled mark & number',
     subheader:
-      'You can customize the styles of marks and numbers. You can also change the gap between each mark.',
+      'You can customize the styles of marks and numbers, and change the gap between each mark.',
   },
   'custom-cursor': {
     title: 'Custom cursor & positioning',
@@ -27,11 +27,11 @@ export default {
   'full-width': {
     title: 'Full width',
     subheader:
-      'By using the ref of the parent element, the component can stretch to its width.\nNotice that the component will never resize.',
+      'In this example, the component stretchs to the parent width.\nNotice that the component is not responsive and will never resize.',
   },
   'resize-observer': {
-    title: 'Full width + ResizeObserver',
+    title: 'Responsive Slide Rule',
     subheader:
-      'To adapt to every resize of the parent element, the component can use "ResizeObserver".\nNotice that IE and old-version browsers may not support ResizeObserver. In this case, consider using "window.onresize" instead.',
+      'In this example, the component adapts to every resize of the parent element, by using "ResizeObserver".\nNotice that IE and old-version browsers may not support ResizeObserver. In this case, consider using "onresize" instead.',
   },
 };

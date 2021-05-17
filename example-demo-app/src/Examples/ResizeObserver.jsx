@@ -1,17 +1,18 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import SlideRule from 'react-slide-rule';
 
 export default React.memo(function () {
   const [value, setValue] = useState(150);
   const root = useRef();
   const [width, setWidth] = useState(300);
-  const adjustWidth = useCallback(() => setWidth(root.current.offsetWidth), []);
 
   useEffect(() => {
     if (!window.ResizeObserver) return null;
-    const observer = new ResizeObserver(adjustWidth);
+    const observer = new ResizeObserver(([entry]) =>
+      setWidth(entry.contentRect.width)
+    );
     observer.observe(root.current);
-    return () => observer.unobserve();
+    return () => observer.disconnect();
   }, []);
 
   return window.ResizeObserver ? (

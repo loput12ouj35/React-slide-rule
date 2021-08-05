@@ -6,8 +6,9 @@ export default {
       "Let's get started with a simple example provided with a value and callback to update the value.",
   },
   'input-element': {
-    title: 'Slide rule with an input element',
-    subheader: 'In this example, the component and input element share state.',
+    title: 'Slide rule & <input> element',
+    subheader:
+      'In this example, the component and the input element share state.',
   },
   vertical: {
     title: 'Vertical slide rules & unit',

@@ -15,7 +15,7 @@ const prefixPath =
 
 export default {
   basic: {
-    fileName: `${prefixPath}basic.jsx`,
+    fileName: `${prefixPath}Basic.jsx`,
     example: <BasicExample />,
   },
   'input-element': {

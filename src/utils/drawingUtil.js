@@ -20,15 +20,21 @@ const _drawLine = (ctx, coordinate, style) => {
   ctx.stroke();
 };
 
-const _drawNumberFromTop = ({ ctx, text, coordinate, numberStyle: { top } }) =>
-  ctx.fillText(text, coordinate, top);
-
-const _drawNumberFromLeft = ({
+const drawNumber = ({
   ctx,
   text,
   coordinate,
-  numberStyle: { left },
-}) => ctx.fillText(text, left, coordinate);
+  numberStyle: { top, left, rotate },
+  isXAxis,
+}) => {
+  ctx.save();
+  if (isXAxis) ctx.translate(coordinate, top);
+  else ctx.translate(left, coordinate);
+
+  ctx.rotate((Math.PI / 180) * rotate);
+  ctx.fillText(text, 0, 0);
+  ctx.restore();
+};
 
 const _applyNumberNumberStyle = (ctx, numberStyle) => {
   const { size, family, color, textAlign, textBaseline } = numberStyle;
@@ -58,7 +64,6 @@ const drawCanvas = ({
   isXAxis,
 }) => {
   const drawLine = isXAxis ? _drawVerticalLine : _drawLine;
-  const drawNumber = isXAxis ? _drawNumberFromTop : _drawNumberFromLeft;
   const lower = Math.round(min / step); // use round() in case of decimal place
   const upper = Math.round(max / step);
   const ctx = canvas.getContext('2d');
@@ -74,7 +79,7 @@ const drawCanvas = ({
     if (i % 10 === 0) {
       drawLine(ctx, coordinate, markStyle);
       const text = _calcNum(i, step) + unit;
-      drawNumber({ ctx, text, coordinate, numberStyle });
+      drawNumber({ ctx, text, coordinate, numberStyle, isXAxis });
     } else drawLine(ctx, coordinate, smallerMarkStyle);
 
     ctx.closePath();

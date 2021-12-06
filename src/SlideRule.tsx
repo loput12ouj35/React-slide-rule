@@ -16,6 +16,7 @@ const DEFAULT_X_AXIS_PROPS: SlideRuleProps = {
     top: 36,
     textAlign: 'center',
     textBaseline: 'top',
+    rotate: 0,
   },
 };
 
@@ -32,6 +33,7 @@ const DEFAULT_Y_AXIS_PROPS: SlideRuleProps = {
     left: 36,
     textAlign: 'left',
     textBaseline: 'middle',
+    rotate: 0,
   },
 };
 

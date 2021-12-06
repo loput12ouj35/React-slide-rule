@@ -8,6 +8,7 @@ import {
   VerticalExample,
   CustomStyledExample,
   CustomCursorExample,
+  RotateNumberExample,
 } from 'Examples';
 
 const prefixPath =
@@ -29,6 +30,10 @@ export default {
   'custom-styled': {
     fileName: `${prefixPath}CustomStyled.jsx`,
     example: <CustomStyledExample />,
+  },
+  'rotate-number': {
+    fileName: `${prefixPath}RotateNumber.jsx`,
+    example: <RotateNumberExample />,
   },
   'custom-cursor': {
     fileName: `${prefixPath}CustomCursor.jsx`,

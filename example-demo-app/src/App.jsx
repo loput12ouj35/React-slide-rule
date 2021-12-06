@@ -21,6 +21,7 @@ export default React.memo(function App() {
       <h2 id="Advanced">Advanced</h2>
       <ul>
         <ExampleItem id="custom-styled" />
+        <ExampleItem id="rotate-number" />
         <ExampleItem id="custom-cursor" />
         <ExampleItem id="full-width" />
         <ExampleItem id="resize-observer" />

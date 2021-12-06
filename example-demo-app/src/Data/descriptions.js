@@ -1,6 +1,5 @@
 export default {
-  main:
-    ' allows users to select a value along a subjectvie range and step.\nThis application lists demos of the component.',
+  main: ' allows users to select a value along a subjectvie range and step.\nThis application lists demos of the component.',
   basic: {
     subheader:
       "Let's get started with a simple example provided with a value and callback to update the value.",
@@ -19,6 +18,10 @@ export default {
     title: 'Custom styled mark & number',
     subheader:
       'You can customize the styles of marks and numbers, and change the gap between each mark.',
+  },
+  'rotate-number': {
+    title: 'Rotate number',
+    subheader: 'You can customize the slope of numbers',
   },
   'custom-cursor': {
     title: 'Custom cursor & positioning',

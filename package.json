@@ -31,8 +31,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "cd example-demo-app && yarn dev",
-    "build": "babel src --extensions .jsx,.js,.tsx,.ts -d dist && tsc",
-    "lint": "eslint --ext .jsx,.js,.tsx,.ts src"
+    "build": "babel src --extensions .tsx,.ts -d dist && tsc",
+    "lint": "eslint . --ext .tsx,.ts && tsc --noEmit"
   },
   "husky": {
     "hooks": {

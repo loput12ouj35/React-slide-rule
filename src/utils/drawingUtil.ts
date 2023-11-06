@@ -6,7 +6,7 @@ interface DrawCanvas {
   step: number;
   markStyle: MarkStyle;
   smallerMarkStyle: MarkStyle;
-  numberStyle: NumberStyle | MarkStyle;
+  numberStyle: NumberStyle;
   unit: string;
   min: number;
   max: number;
@@ -19,28 +19,28 @@ interface DrawCanvas {
 const _drawVerticalLine = (
   ctx: CanvasRenderingContext2D,
   coordinate: number,
-  style: Required<MarkStyle>
+  style: MarkStyle
 ) => {
   const { width, height, color, top } = style;
 
-  ctx.lineWidth = width;
-  ctx.strokeStyle = color;
-  ctx.moveTo(coordinate, top);
-  ctx.lineTo(coordinate, top + height);
+  ctx.lineWidth = width!;
+  ctx.strokeStyle = color!;
+  ctx.moveTo(coordinate, top!);
+  ctx.lineTo(coordinate, top! + height!);
   ctx.stroke();
 };
 
 const _drawLine = (
   ctx: CanvasRenderingContext2D,
   coordinate: number,
-  style: Required<MarkStyle>
+  style: MarkStyle
 ) => {
   const { width, height, color, left } = style;
 
-  ctx.lineWidth = height;
-  ctx.strokeStyle = color;
-  ctx.moveTo(left, coordinate);
-  ctx.lineTo(left + width, coordinate);
+  ctx.lineWidth = height!;
+  ctx.strokeStyle = color!;
+  ctx.moveTo(left!, coordinate);
+  ctx.lineTo(left! + width!, coordinate);
   ctx.stroke();
 };
 
@@ -110,10 +110,10 @@ const drawCanvas = ({
 
     ctx.beginPath();
     if (i % 10 === 0) {
-      drawLine(ctx, coordinate, markStyle as Required<MarkStyle>);
+      drawLine(ctx, coordinate, markStyle);
       const text = _calcNum(i, step) + unit;
       drawNumber({ ctx, text, coordinate, numberStyle, isXAxis });
-    } else drawLine(ctx, coordinate, smallerMarkStyle as Required<MarkStyle>);
+    } else drawLine(ctx, coordinate, smallerMarkStyle);
 
     ctx.closePath();
   }

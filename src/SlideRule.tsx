@@ -96,7 +96,9 @@ const SlideRule = forwardRef<HTMLDivElement, SlideRuleProps>(function SlideRule(
           defaults.smallerMarkStyle,
           smallerMarkStyle
         )}
-        numberStyle={_getOrMerge(defaults.numberStyle, numberStyle)}
+        numberStyle={
+          _getOrMerge(defaults.numberStyle, numberStyle) as NumberStyle
+        }
         width={width}
         height={height}
         unit={unit}

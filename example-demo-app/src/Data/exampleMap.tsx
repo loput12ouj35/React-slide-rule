@@ -42,7 +42,7 @@ export default {
     fileName: `${prefixPath}FullWidth.jsx`,
     example: <FullWidthExample />,
   },
-  'resize-observer': {
+  'window-resize-observer': {
     fileName: `${prefixPath}ResizeObserver.jsx`,
     example: <ResizeObserverExample />,
   },

@@ -6,7 +6,7 @@ export type DescriptionsKind =
   | 'rotate-number'
   | 'custom-cursor'
   | 'full-width'
-  | 'resize-observer';
+  | 'window-resize-observer';
 
 type DescriptionType = {
   [key in DescriptionsKind]: {
@@ -49,7 +49,7 @@ const descriptions: DescriptionType = {
     subheader:
       'In this example, the component stretchs to the parent width.\nNotice that the component is not responsive and will never resize.',
   },
-  'resize-observer': {
+  'window-resize-observer': {
     title: 'Responsive Slide Rule',
     subheader:
       'In this example, the component adapts to every resize of the parent element, by using "ResizeObserver".\nNotice that IE and old-version browsers may not support ResizeObserver. In this case, consider using "onresize" instead.',

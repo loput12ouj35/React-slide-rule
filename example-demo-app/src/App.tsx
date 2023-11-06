@@ -1,15 +1,16 @@
-import ExampleItem from "./components/ExampleItem"
+import ExampleItem from './components/ExampleItem';
 import './styles/examples.css';
 
 export default function App() {
   return (
-   <main>
+    <main>
       <h1>Demos</h1>
       <p>
         <a href="https://github.com/loput12ouj35/React-slide-rule">
           React-slide-rule
         </a>
-        &nbsp;allows users to select a value along a subjectvie range and step.\nThis application lists demos of the component.
+        &nbsp;allows users to select a value along a subjectvie range and
+        step.\nThis application lists demos of the component.
       </p>
       <h2 id="basic">Basic</h2>
       <ul>
@@ -28,5 +29,5 @@ export default function App() {
       <h2>Playground</h2>
       <p>(todo)</p>
     </main>
-  )
-};
+  );
+}

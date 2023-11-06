@@ -1,4 +1,4 @@
-import React from 'react';
+import { forwardRef } from 'react';
 import Canvas from './Canvas';
 import styles from './data/styles';
 import { Axis, MarkStyle, NumberStyle, SlideRuleProps } from './data/type';
@@ -38,6 +38,7 @@ const DEFAULT_Y_AXIS_PROPS: SlideRuleProps = {
 };
 
 const _isXAxis = (axis: Axis): boolean => axis === 'x' || axis === 'x-reverse';
+
 const _getOrMerge = (
   source: MarkStyle | NumberStyle = {},
   target?: MarkStyle | NumberStyle
@@ -49,9 +50,9 @@ const _getOrMerge = (
   }
 };
 
-export default React.forwardRef(function SlideRule(
-  props: SlideRuleProps,
-  ref: React.Ref<never>
+const SlideRule = forwardRef<HTMLDivElement, SlideRuleProps>(function SlideRule(
+  props,
+  ref
 ) {
   const {
     onChange = (v: number) => v,
@@ -72,8 +73,13 @@ export default React.forwardRef(function SlideRule(
 
   if (showWarning) validate({ value, min, max, step });
 
-  const def = _isXAxis(axis) ? DEFAULT_X_AXIS_PROPS : DEFAULT_Y_AXIS_PROPS;
-  const { width = def.width, height = def.height, cursor = def.cursor } = rest;
+  const defaults = _isXAxis(axis) ? DEFAULT_X_AXIS_PROPS : DEFAULT_Y_AXIS_PROPS;
+
+  const {
+    width = defaults.width,
+    height = defaults.height,
+    cursor = defaults.cursor,
+  } = rest;
 
   return (
     <div ref={ref} style={styles.createRootStyle(style)}>
@@ -85,9 +91,12 @@ export default React.forwardRef(function SlideRule(
         min={min}
         value={Number(value)}
         axis={axis}
-        markStyle={_getOrMerge(def.markStyle, markStyle)}
-        smallerMarkStyle={_getOrMerge(def.smallerMarkStyle, smallerMarkStyle)}
-        numberStyle={_getOrMerge(def.numberStyle, numberStyle)}
+        markStyle={_getOrMerge(defaults.markStyle, markStyle)}
+        smallerMarkStyle={_getOrMerge(
+          defaults.smallerMarkStyle,
+          smallerMarkStyle
+        )}
+        numberStyle={_getOrMerge(defaults.numberStyle, numberStyle)}
         width={width}
         height={height}
         unit={unit}
@@ -96,6 +105,8 @@ export default React.forwardRef(function SlideRule(
     </div>
   );
 });
+
+export default SlideRule;
 
 function validate(options: {
   value: number;

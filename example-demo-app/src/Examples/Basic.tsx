@@ -10,4 +10,4 @@ export default function Basic() {
       <SlideRule value={value} onChange={setValue} />
     </div>
   );
-};
+}

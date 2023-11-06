@@ -43,7 +43,7 @@ const calcFromTo = (options: {
   basis: number;
   value: number;
   isReverseAxis: boolean;
-}): object => {
+}) => {
   const { step, gap, basis, value, isReverseAxis } = options;
   const halfBasis = basis / 2;
   const startValue = value - Math.floor(halfBasis / gap) * step;

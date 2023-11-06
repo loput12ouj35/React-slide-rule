@@ -1,11 +1,11 @@
-@import 'examples.scss';
+* {
+  box-sizing: border-box;
+}
 
-div#root {
+#root {
   display: flex;
   justify-content: center;
 }
-
-// global default styles applied to element types
 
 main {
   max-width: 64rem;
@@ -29,10 +29,6 @@ body {
   line-height: 1.5;
   margin: 0;
   font-family: 'Roboto';
-}
-
-* {
-  box-sizing: border-box;
 }
 
 h1 {

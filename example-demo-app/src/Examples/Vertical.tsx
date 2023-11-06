@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import SlideRule from 'react-slide-rule';
 
-export default React.memo(function () {
+export default function Vertical() {
   const [value, setValue] = useState(1.5);
 
   return (
@@ -30,4 +30,4 @@ export default React.memo(function () {
       />
     </div>
   );
-});
+}

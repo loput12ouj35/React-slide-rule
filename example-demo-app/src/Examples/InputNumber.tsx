@@ -1,13 +1,18 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import SlideRule from 'react-slide-rule';
 
 const [min, max, step] = [0, 300, 0.1];
 
-export default React.memo(function () {
+export default function InputNumber() {
   const [value, setValue] = useState(70.3);
-  const handleChange = useCallback((e) => setValue(Number(e.target.value)), []);
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) =>
+      setValue(Number(e.target.value)),
+    []
+  );
   const handleBlur = useCallback(
-    (e) => setValue(Math.max(min, Math.min(e.target.value, max))),
+    (e: React.FocusEvent<HTMLInputElement>) =>
+      setValue(Math.max(min, Math.min(Number(e.target.value), max))),
     []
   );
 
@@ -34,4 +39,4 @@ export default React.memo(function () {
       />
     </div>
   );
-});
+}

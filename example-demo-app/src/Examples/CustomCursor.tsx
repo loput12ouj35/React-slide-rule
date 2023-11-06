@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import SlideRule from 'react-slide-rule';
 
-export default React.memo(function () {
+export default function CustomCursor() {
   const [value, setValue] = useState(150);
 
   return (
@@ -13,12 +13,8 @@ export default React.memo(function () {
         markStyle={{ top: 24 }}
         smallerMarkStyle={{ top: 39 }}
         numberStyle={{ top: 0 }}
-        cursor={<CustomCursor />}
+        cursor={<div className="custom-cursor" />}
       />
     </div>
   );
-});
-
-const CustomCursor = React.memo(function () {
-  return <div className="custom-cursor" />;
-});
+}

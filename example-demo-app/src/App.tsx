@@ -1,16 +1,15 @@
-import React from 'react';
-import ExampleItem from 'ExampleItem';
-import descriptions from 'Data/descriptions';
+import ExampleItem from "./components/ExampleItem"
+import './styles/examples.css';
 
-export default React.memo(function App() {
+export default function App() {
   return (
-    <main>
+   <main>
       <h1>Demos</h1>
       <p>
         <a href="https://github.com/loput12ouj35/React-slide-rule">
           React-slide-rule
         </a>
-        {descriptions.main}
+        &nbsp;allows users to select a value along a subjectvie range and step.\nThis application lists demos of the component.
       </p>
       <h2 id="basic">Basic</h2>
       <ul>
@@ -29,5 +28,5 @@ export default React.memo(function App() {
       <h2>Playground</h2>
       <p>(todo)</p>
     </main>
-  );
-});
+  )
+};

@@ -1,17 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import SlideRule from 'react-slide-rule';
 
-export default React.memo(function () {
+export default function () {
   const [value, setValue] = useState(150);
-  const root = useRef();
+  const root = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(300);
 
   useEffect(() => {
-    if (!window.ResizeObserver) return null;
+    if (!window.ResizeObserver) return;
     const observer = new ResizeObserver(([entry]) =>
       setWidth(entry.contentRect.width)
     );
-    observer.observe(root.current);
+    if (root.current) observer.observe(root.current);
     return () => observer.disconnect();
   }, []);
 
@@ -22,4 +22,4 @@ export default React.memo(function () {
   ) : (
     <p>This browser dose not support ResizeObserver!</p>
   );
-});
+}

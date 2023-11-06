@@ -1,5 +1,21 @@
-export default {
-  main: 'Allows users to select a value along a subjectvie range and step.\nThis application lists demos of the component.',
+export type DescriptionsKind =
+  | 'basic'
+  | 'input-element'
+  | 'vertical'
+  | 'custom-styled'
+  | 'rotate-number'
+  | 'custom-cursor'
+  | 'full-width'
+  | 'resize-observer';
+
+type DescriptionType = {
+  [key in DescriptionsKind]: {
+    subheader: string;
+    title?: string;
+  };
+};
+
+const descriptions: DescriptionType = {
   basic: {
     subheader:
       "Let's get started with a simple example provided with a value and callback to update the value.",
@@ -39,3 +55,5 @@ export default {
       'In this example, the component adapts to every resize of the parent element, by using "ResizeObserver".\nNotice that IE and old-version browsers may not support ResizeObserver. In this case, consider using "onresize" instead.',
   },
 };
+
+export default descriptions;

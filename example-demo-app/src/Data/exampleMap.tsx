@@ -1,15 +1,14 @@
-// Note that this file dose not define any component.
-import React from 'react';
+// Note that this file does not define any components.
 import {
-  InputNumberExample,
-  FullWidthExample,
-  ResizeObserverExample,
   BasicExample,
-  VerticalExample,
-  CustomStyledExample,
   CustomCursorExample,
+  CustomStyledExample,
+  FullWidthExample,
+  InputNumberExample,
+  ResizeObserverExample,
   RotateNumberExample,
-} from 'Examples';
+  VerticalExample,
+} from '../Examples';
 
 const prefixPath =
   'https://github.com/loput12ouj35/React-slide-rule/blob/main/example-demo-app/src/Examples/';

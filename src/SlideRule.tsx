@@ -51,7 +51,7 @@ const _getOrMerge = (
 
 export default React.forwardRef(function SlideRule(
   props: SlideRuleProps,
-  ref: React.Ref<any>
+  ref: React.Ref<never>
 ) {
   const {
     onChange = (v: number) => v,

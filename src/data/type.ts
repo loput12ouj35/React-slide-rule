@@ -1,5 +1,4 @@
 import React from 'react';
-import { Property } from 'csstype';
 
 export interface TouchPoint {
   time: number;
@@ -9,7 +8,7 @@ export interface TouchPoint {
 export type Axis = 'x' | 'y' | 'x-reverse' | 'y-reverse';
 
 export interface MarkStyle {
-  color?: Property.BackgroundColor;
+  color?: React.CSSProperties['backgroundColor'];
   width?: number;
   height?: number;
   top?: number;
@@ -17,9 +16,9 @@ export interface MarkStyle {
 }
 
 export interface NumberStyle {
-  size?: Property.FontSize;
-  family?: Property.FontFamily;
-  color?: Property.Color;
+  size?: React.CSSProperties['fontSize'];
+  family?: React.CSSProperties['fontFamily'];
+  color?: React.CSSProperties['color'];
   top?: number;
   left?: number;
   textAlign?: 'left' | 'right' | 'center' | 'start' | 'end';
@@ -30,10 +29,11 @@ export interface NumberStyle {
     | 'alphabetic'
     | 'ideographic'
     | 'bottom';
+  rotate: number;
 }
 
 export interface SlideRuleProps {
-  onChange?: (v: number) => void;
+  onChange?: (_v: number) => void;
   width?: number;
   height?: number;
   markStyle?: MarkStyle;

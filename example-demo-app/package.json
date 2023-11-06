@@ -2,7 +2,7 @@
   "name": "demo-for-react-slide-rule",
   "private": true,
   "scripts": {
-    "start": "webpack serve --config-name dev",
+    "dev": "webpack serve --config-name dev",
     "build": "webpack --config-name prod",
     "lint": "eslint --ext .jsx,.js src"
   },

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import SlideRule from 'react-slide-rule';
 
-export default function () {
+export default function RotateNumber() {
   const [value, setValue] = useState(150);
 
   return (

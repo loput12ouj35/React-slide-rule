@@ -24,7 +24,7 @@ export default function App() {
         <ExampleItem id="rotate-number" />
         <ExampleItem id="custom-cursor" />
         <ExampleItem id="full-width" />
-        <ExampleItem id="resize-observer" />
+        <ExampleItem id="window-resize-observer" />
       </ul>
       <h2>Playground</h2>
       <p>(todo)</p>

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import SlideRule from 'react-slide-rule';
 
-export default function () {
+export default function WindowResizeObserver() {
   const [value, setValue] = useState(150);
   const root = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(300);

@@ -21,7 +21,7 @@ interface Props {
   onChange: (_v: number) => void;
   markStyle: MarkStyle;
   smallerMarkStyle: MarkStyle;
-  numberStyle: NumberStyle | MarkStyle;
+  numberStyle: NumberStyle;
 }
 
 export default function Canvas({

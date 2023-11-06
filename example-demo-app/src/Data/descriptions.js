@@ -1,6 +1,5 @@
 export default {
-  main:
-    ' allows users to select a value along a subjectvie range and step.\nThis application lists demos of the component.',
+  main: 'Allows users to select a value along a subjectvie range and step.\nThis application lists demos of the component.',
   basic: {
     subheader:
       "Let's get started with a simple example provided with a value and callback to update the value.",

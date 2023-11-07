@@ -6,4 +6,5 @@ export { default as VerticalExample } from './Vertical';
 export { default as CustomStyledExample } from './CustomStyled';
 export { default as CustomCursorExample } from './CustomCursor';
 export { default as RotateNumberExample } from './RotateNumber';
+export { default as MultiplePointersExample } from './MultiplePointers';
 export { default as Playground } from './Playground';

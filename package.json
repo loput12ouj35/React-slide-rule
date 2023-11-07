@@ -1,6 +1,6 @@
 {
   "name": "react-slide-rule",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "description": "A React component allowing users to select a value along a subjective range and step.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

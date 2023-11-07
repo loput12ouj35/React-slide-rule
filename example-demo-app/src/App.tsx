@@ -9,8 +9,8 @@ export default function App() {
         <a href="https://github.com/loput12ouj35/React-slide-rule">
           React-slide-rule
         </a>
-        &nbsp;allows users to select a value along a subjectvie range and
-        step.\nThis application lists demos of the component.
+        &nbsp;allows users to select a value along a subjectvie range and step.
+        This application lists demos of the component.
       </p>
       <h2 id="basic">Basic</h2>
       <ul>
@@ -23,6 +23,7 @@ export default function App() {
         <ExampleItem id="custom-styled" />
         <ExampleItem id="rotate-number" />
         <ExampleItem id="custom-cursor" />
+        <ExampleItem id="multiple-pointers" />
         <ExampleItem id="full-width" />
         <ExampleItem id="window-resize-observer" />
       </ul>

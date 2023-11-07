@@ -6,7 +6,8 @@ export type DescriptionsKind =
   | 'rotate-number'
   | 'custom-cursor'
   | 'full-width'
-  | 'window-resize-observer';
+  | 'window-resize-observer'
+  | 'multiple-pointers';
 
 type DescriptionType = {
   [key in DescriptionsKind]: {
@@ -53,6 +54,11 @@ const descriptions: DescriptionType = {
     title: 'Responsive Slide Rule',
     subheader:
       'In this example, the component adapts to every resize of the parent element, by using "ResizeObserver".\nNotice that IE and old-version browsers may not support ResizeObserver. In this case, consider using "onresize" instead.',
+  },
+  'multiple-pointers': {
+    title: 'Multiple Pointers',
+    subheader:
+      'In this example, we added 3 pointers on the Slide Rule but you can add as many as you want.\nNote that the value of the pointers never cross min and max of the Slide Rule.',
   },
 };
 

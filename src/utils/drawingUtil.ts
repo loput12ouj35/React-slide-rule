@@ -1,20 +1,41 @@
-import { MarkStyle, NumberStyle } from '../data/type';
+import { MarkStyle, NumberStyle, SlideRuleProps } from '../data/type';
 import util from './common';
 
-interface DrawCanvas {
-  canvas: HTMLCanvasElement;
-  step: number;
-  markStyle: MarkStyle;
-  smallerMarkStyle: MarkStyle;
-  numberStyle: NumberStyle;
-  unit: string;
-  min: number;
-  max: number;
-  from: number;
-  to: number;
-  calcMarkCoordinate: (_v: number) => number;
-  isXAxis: boolean;
-}
+type DrawCanvas = Required<
+  Omit<
+    SlideRuleProps,
+    | 'style'
+    | 'showWarning'
+    | 'cursor'
+    | 'axis'
+    | 'cursor'
+    | 'value'
+    | 'gap'
+    | 'height'
+    | 'onChange'
+    | 'width'
+  > & {
+    canvas: HTMLCanvasElement;
+    from: number;
+    to: number;
+    calcMarkCoordinate: (_v: number) => number;
+    isXAxis: boolean;
+  }
+>;
+
+const DEFAULT_POINTER_X_AXIS_STYLES = {
+  top: 0,
+  width: 3,
+  height: 30,
+  color: 'red',
+};
+
+const DEFAULT_POINTER_Y_AXIS_STYLES = {
+  left: 0,
+  width: 30,
+  height: 3,
+  color: 'red',
+};
 
 const _drawVerticalLine = (
   ctx: CanvasRenderingContext2D,
@@ -82,6 +103,31 @@ const _round = (number: number, step: number) =>
 
 const _calcNum = (i: number, step: number) => _round(i * step, step);
 
+const validatePointersValue = (
+  pointers: DrawCanvas['pointers'],
+  min: number,
+  max: number,
+  isXAxis: boolean
+) => {
+  const defaults = isXAxis
+    ? DEFAULT_POINTER_X_AXIS_STYLES
+    : DEFAULT_POINTER_Y_AXIS_STYLES;
+
+  if (pointers && pointers.length > 0) {
+    for (const pointer of pointers) {
+      pointer.styles = { ...defaults, ...pointer.styles };
+      if (pointer.value > max) {
+        pointer.value = max;
+      }
+      if (pointer.value < min) {
+        pointer.value = min;
+      }
+    }
+  }
+
+  return pointers;
+};
+
 const drawCanvas = ({
   canvas,
   step,
@@ -95,13 +141,18 @@ const drawCanvas = ({
   to,
   calcMarkCoordinate,
   isXAxis,
+  pointers,
 }: DrawCanvas) => {
   const drawLine = isXAxis ? _drawVerticalLine : _drawLine;
+
   const lower = Math.round(min / step); // use round() in case of decimal place
   const upper = Math.round(max / step);
   const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
 
+  const validatedPointers = validatePointersValue(pointers, min, max, isXAxis);
+
   _applyNumberNumberStyle(ctx, numberStyle);
+
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   for (let i = from; i <= to; ++i) {
@@ -109,6 +160,7 @@ const drawCanvas = ({
     const coordinate = calcMarkCoordinate(i);
 
     ctx.beginPath();
+
     if (i % 10 === 0) {
       drawLine(ctx, coordinate, markStyle);
       const text = _calcNum(i, step) + unit;
@@ -116,6 +168,15 @@ const drawCanvas = ({
     } else drawLine(ctx, coordinate, smallerMarkStyle);
 
     ctx.closePath();
+  }
+
+  if (validatedPointers && validatedPointers.length > 0) {
+    for (const pointer of validatedPointers) {
+      ctx.beginPath();
+      const coordinate = calcMarkCoordinate(pointer.value / step);
+      drawLine(ctx, coordinate, pointer.styles || {});
+      ctx.closePath();
+    }
   }
 };
 

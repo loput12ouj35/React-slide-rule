@@ -1,28 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
-import drawingUtil from './utils/drawingUtil';
 import styles from './data/styles';
+import { SlideRuleProps, TouchPoint } from './data/type';
 import util from './utils/common';
-import { Axis, MarkStyle, NumberStyle, TouchPoint } from './data/type';
+import drawingUtil from './utils/drawingUtil';
 
 type TouchType =
   | React.TouchEvent<HTMLCanvasElement>
   | React.MouseEvent<HTMLCanvasElement>;
 
-interface Props {
-  width?: number;
-  height?: number;
-  min: number;
-  max: number;
-  step: number;
-  gap: number;
-  value: number;
-  unit: string;
-  axis: Axis;
-  onChange: (_v: number) => void;
-  markStyle: MarkStyle;
-  smallerMarkStyle: MarkStyle;
-  numberStyle: NumberStyle;
-}
+type Props = Required<Omit<SlideRuleProps, 'style' | 'showWarning' | 'cursor'>>;
 
 export default function Canvas({
   axis,
@@ -38,6 +24,7 @@ export default function Canvas({
   numberStyle,
   smallerMarkStyle,
   unit,
+  pointers,
 }: Props) {
   const [translate, setTranslate] = useState(0);
 
@@ -175,6 +162,7 @@ export default function Canvas({
       to,
       calcMarkCoordinate,
       isXAxis: isXAxis(),
+      pointers,
     });
   }
 

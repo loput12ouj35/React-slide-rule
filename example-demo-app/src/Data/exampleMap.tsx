@@ -8,6 +8,7 @@ import {
   ResizeObserverExample,
   RotateNumberExample,
   VerticalExample,
+  MultiplePointersExample,
 } from '../Examples';
 
 const prefixPath =
@@ -15,35 +16,39 @@ const prefixPath =
 
 export default {
   basic: {
-    fileName: `${prefixPath}Basic.jsx`,
+    fileName: `${prefixPath}Basic.tsx`,
     example: <BasicExample />,
   },
   'input-element': {
-    fileName: `${prefixPath}InputNumber.jsx`,
+    fileName: `${prefixPath}InputNumber.tsx`,
     example: <InputNumberExample />,
   },
   vertical: {
-    fileName: `${prefixPath}Vertical.jsx`,
+    fileName: `${prefixPath}Vertical.tsx`,
     example: <VerticalExample />,
   },
   'custom-styled': {
-    fileName: `${prefixPath}CustomStyled.jsx`,
+    fileName: `${prefixPath}CustomStyled.tsx`,
     example: <CustomStyledExample />,
   },
   'rotate-number': {
-    fileName: `${prefixPath}RotateNumber.jsx`,
+    fileName: `${prefixPath}RotateNumber.tsx`,
     example: <RotateNumberExample />,
   },
   'custom-cursor': {
-    fileName: `${prefixPath}CustomCursor.jsx`,
+    fileName: `${prefixPath}CustomCursor.tsx`,
     example: <CustomCursorExample />,
   },
   'full-width': {
-    fileName: `${prefixPath}FullWidth.jsx`,
+    fileName: `${prefixPath}FullWidth.tsx`,
     example: <FullWidthExample />,
   },
   'window-resize-observer': {
-    fileName: `${prefixPath}ResizeObserver.jsx`,
+    fileName: `${prefixPath}ResizeObserver.tsx`,
     example: <ResizeObserverExample />,
+  },
+  'multiple-pointers': {
+    fileName: `${prefixPath}MultiplePointers.tsx`,
+    example: <MultiplePointersExample />,
   },
 };

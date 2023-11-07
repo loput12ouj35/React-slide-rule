@@ -49,4 +49,8 @@ export interface SlideRuleProps {
   cursor?: React.ReactElement;
   showWarning?: boolean;
   axis?: Axis;
+  pointers?: {
+    value: number;
+    styles?: MarkStyle;
+  }[];
 }
